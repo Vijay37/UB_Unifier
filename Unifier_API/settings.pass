@@ -1,0 +1,10 @@
+<?php
+    
+
+    // DB Settings
+    $db_server = "tethys.cse.buffalo.edu";
+    $db_username = "vijayaha";
+    $db_password = "ChangeMe";
+    $db_name = "cse611a_db";
+    
+?>
