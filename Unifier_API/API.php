@@ -10,5 +10,9 @@ if(isset($_POST["KEY"])){
     $response=validateUser($_POST["EMAIL"],$_POST["PASSWORD"]);
     echo json_encode($response);
   }
+  else if($_POST["KEY"]=="REGISTER"){
+    $response=registerUser($_POST["F_NAME"],$_POST["L_NAME"],$_POST["EMAIL"],$_POST["PASSWORD"]);
+    echo json_encode($response);
+  }
 }
 ?>

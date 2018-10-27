@@ -5,6 +5,71 @@
 
   .Login form {
     margin: 0 auto;
-    max-width: 320px;
+    max-width: 500px;
   }
+}
+
+label {
+	color: #999;
+	font-size: 18px;
+	font-weight: normal;
+	position: absolute;
+	pointer-events: none;
+	left: 5px;
+	top: 10px;
+	transition: all 0.2s ease;
+}
+.inputCSS {
+	font-size: 18px;
+	padding: 10px 10px 10px 5px;
+	-webkit-appearance: none;
+	display: block;
+	background: white;
+	color: #636363;
+	width: 100%;
+	border: none;
+	border-radius: 0;
+	border-bottom: 1px solid #757575;
+  margin: 10px;
+}
+.inputCSS:focus{
+  outline: none;
+  border-bottom: 2px solid #005bbb;
+}
+.form-group{
+  margin: 4em auto;
+	padding: 1em 2em 2em 2em;
+	background: white;
+	border: 1px solid #ebebeb;
+	box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
+  width: 300px;
+}
+.login-grid{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  text-align: center;
+  font-size: 14px;
+}
+.login-containers{
+
+  width: 200px;
+
+}
+.header-font{
+  font-weight: bold;
+  text-align: center;
+}
+.vertical-bar{
+  height:500px;
+  width: 1px;
+  background: grey;
+}
+.primary-button{
+  margin-top: 20px;
+  width: 100%;
+  cursor: pointer;
+  background: #005bbb !important;
 }
