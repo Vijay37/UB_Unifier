@@ -1,20 +1,27 @@
 import React, {Component} from "react";
-import { Button, Navbar } from 'react-bootstrap'
+import {Link} from 'react-router-dom';
+import { Button, Navbar } from 'react-bootstrap';
+import '../App.css';
+import './Header.css';
+import Home from './Home';
 export default class Header extends Component{
   constructor(props){
     super(props);
+    this.navigateToHome=this.navigateToHome.bind(this);
+  }
+  navigateToHome(){
+
   }
   render(){
     return(
-      <Navbar inverse collapseOnSelect>
-  <Navbar.Header>
-    <Navbar.Brand>
-      <a href="#brand">React-Bootstrap</a>
-    </Navbar.Brand>
-    <Navbar.Toggle />
-  </Navbar.Header>
-</Navbar>
-
+      <header className="App-header">
+        <div className="headerimgDiv" onClick={this.navigateToHome()}>
+          <Link to="/">
+        <img className="ubHeaderCSS" src={require('../Files/ub_logo.jpg')}/>
+    </Link>
+      </div>
+      <div className="headerTitleCSS">UB UNIFIER</div>
+      </header>
     );
   }
 }

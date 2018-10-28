@@ -1,12 +1,16 @@
-import React, {Component} from "react";
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import {Button, FormGroup,FormControl,ControlLabel,Grid,Row,Col,ClearFix} from "react-bootstrap";
 import '../App.css';
 import "./Login.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Home from './Home';
+import Header from "./Header";
 const API="http://localhost:8888/Unifier_API/API.php";
 export default class Login extends Component{
   constructor(props){
     super(props);
+
     this.login_php=this.login_php.bind(this);
     this.register_php=this.register_php.bind(this);
     this.validateForm=this.validateForm.bind(this);
@@ -21,6 +25,7 @@ export default class Login extends Component{
       password_signup:"",
       confirmpassword_signup:"",
       signup_msg:"",
+      signin_msg:"",
     }
   }
   login_php(){
@@ -46,6 +51,15 @@ export default class Login extends Component{
       if(data.STATUS=="SUCCESS"){
         that.setState({
          signup_msg:data.message,
+
+       });
+      }
+    }
+    else if(caller=="LOGIN"){
+      if(data.STATUS=="FAILURE"){
+        that.setState({
+         signin_msg:data.message,
+
        });
       }
     }
@@ -79,13 +93,15 @@ export default class Login extends Component{
   handleChange=event=>{
 
     this.setState({
-      [event.target.id]:event.target.value
+      [event.target.id]:event.target.value,
+      signup_msg:"", // Resetting Signup Message
+      signin_msg:"",// Resetting Signin Message
     })
   }
   render(){
     return(
       <div className="">
-        <header className="App-header">UB UNIFIER</header>
+        <Header/>
       <div className="login-grid">
         <div className="row">
           <div className="col-md-4 login-containers">
@@ -102,6 +118,12 @@ export default class Login extends Component{
             </div>
             <div className="row">
               <Button className="primary-button btn-primary" onClick={this.validateForm}> LOGIN </Button>
+            </div>
+            <div className="row linkCSS">
+            <Link to="/">Forgot password?</Link>
+           </div>
+            <div className="row error_msg_css" id="signup_msg">
+              {this.state.signin_msg}
             </div>
           </FormGroup>
           </form>
@@ -132,7 +154,7 @@ export default class Login extends Component{
             <div className="row">
               <Button className="primary-button btn-primary" onClick={this.registerUser}> SIGN UP </Button>
             </div>
-            <div className="row" id="signup_msg">
+            <div className="row error_msg_css" id="signup_msg">
               {this.state.signup_msg}
             </div>
           </FormGroup>

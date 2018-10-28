@@ -1,0 +1,28 @@
+.ubHeaderCSS{
+  width:100px;
+  height:60px;
+
+}
+.headerimgDiv{
+  display: flex;
+  align-self: left;
+  justify-content: flex-start;
+  cursor: pointer;
+
+}
+.headerTitleCSS{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
+.App-header {
+  background-color: #005bbb;
+  height: 60px;
+  color: white;
+  font-size: 20px;
+  font-family: sans-serif;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+}
