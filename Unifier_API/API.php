@@ -27,5 +27,9 @@ if(isset($_POST["KEY"])){
     $response=add_user_event($_POST["EMAIL"],$_POST["EVENTNAME"],$_POST["DESC"],$_POST["TIME"],$_POST["DATE"],$_POST["LOCATION"],$_POST["CATEGORY"]);
     echo json_encode($response);
   }
+  else if($_POST["KEY"]=="ADDEVENT"){
+    $response=add_event($_POST["EVENTNAME"],$_POST["DESC"],$_POST["TIME"],$_POST["DATE"],$_POST["LOCATION"],$_POST["CATEGORY"]);
+    echo json_encode($response);
+  }
 }
 ?>
