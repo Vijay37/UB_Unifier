@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import {Link} from 'react-router-dom';
-import { Button, Navbar } from 'react-bootstrap';
 import '../App.css';
 import './Header.css';
-import Home from './Home';
 export default class Header extends Component{
   constructor(props){
     super(props);

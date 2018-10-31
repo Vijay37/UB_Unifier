@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {Button, FormGroup,FormControl,ControlLabel,Grid,Row,Col,ClearFix} from "react-bootstrap";
+import {Button, FormGroup,FormControl,} from "react-bootstrap";
+import Header from "./Header";
+import * as constants from './Constants';
 import '../App.css';
 import "./Login.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Home from './Home';
-import Header from "./Header";
-const API="http://localhost:8888/Unifier_API/API.php";
 export default class Login extends Component{
   constructor(props){
     super(props);
@@ -37,7 +36,7 @@ export default class Login extends Component{
   };
   post_data(formData,caller){
     const that = this;
-    return fetch(API,{
+    return fetch(constants.API,{
       method:"POST",
       mode: "cors",
       cache:"no-cache",
@@ -47,20 +46,27 @@ export default class Login extends Component{
     }
   ).then(response=>response.json())
   .then(function(data){
-    if(caller=="REGISTER"){
-      if(data.STATUS=="SUCCESS"){
+    console.log("Data",data);
+    if(caller==="REGISTER"){
+      if(data.STATUS==="SUCCESS"){
         that.setState({
          signup_msg:data.message,
 
        });
       }
     }
-    else if(caller=="LOGIN"){
-      if(data.STATUS=="FAILURE"){
+    else if(caller==="LOGIN"){
+      if(data.STATUS==="FAILURE"){
         that.setState({
          signin_msg:data.message,
 
        });
+      }
+      else if(data.STATUS==="SUCCESS"){
+        sessionStorage.setItem('loggedin', 'true');
+        sessionStorage.setItem('user', that.state.email);
+
+        that.props.history.push('/');
       }
     }
   })
@@ -107,7 +113,7 @@ export default class Login extends Component{
           <div className="col-md-4 login-containers">
             <form>
               <FormGroup className="form-group">
-                <div className="row" className=" header-font">
+                <div className="row header-font">
                   LOGIN
                 </div>
             <div className="row" >
@@ -120,7 +126,7 @@ export default class Login extends Component{
               <Button className="primary-button btn-primary" onClick={this.validateForm}> LOGIN </Button>
             </div>
             <div className="row linkCSS">
-            <Link to="/">Forgot password?</Link>
+            <Link to="/ForgotPassword">Forgot password?</Link>
            </div>
             <div className="row error_msg_css" id="signup_msg">
               {this.state.signin_msg}
@@ -133,7 +139,7 @@ export default class Login extends Component{
         <div className="col-md-4">
           <form>
             <FormGroup bsClass="form-group">
-              <div className="row" className=" header-font">
+              <div className="row header-font">
                 SIGN UP
               </div>
             <div className="row">

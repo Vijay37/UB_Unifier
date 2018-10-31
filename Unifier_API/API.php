@@ -14,5 +14,10 @@ if(isset($_POST["KEY"])){
     $response=registerUser($_POST["F_NAME"],$_POST["L_NAME"],$_POST["EMAIL"],$_POST["PASSWORD"]);
     echo json_encode($response);
   }
+  else if($_POST["KEY"]=="LOGOUT"){
+    $response=logout_user();
+    echo json_encode($response);
+  }
+
 }
 ?>

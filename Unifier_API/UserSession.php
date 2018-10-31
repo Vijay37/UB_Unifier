@@ -22,21 +22,36 @@
 
     function validateUser( $username, $password ){
         $ret['message'] = 'SUCCESS';
+        $ret["STATUS"] = "SUCCESS";
         $sql_conn = mysqli_connection();
-        $sql = "SELECT * FROM  `user` WHERE userEmail=".$username;
+        $sql = "SELECT * FROM  `user` WHERE userEmail='$username'";
         $result = $sql_conn->query($sql);
         if($result->num_rows==0){
           $ret["message"]="Email ID not found";
+          $ret["STATUS"] = "FAILURE";
         }
         else{
           $row=$result->fetch_assoc();
-          if($row["userPassword"]!=$password || $row["verificationStatus"]==0){
-            $ret["message"]="Invalid Password/Account not verified";
+          if($row["userPassword"]!=$password){
+            $ret["message"]="Invalid Email/Password";
+            $ret["STATUS"] = "FAILURE";
+          }
+          else if($row["verificationStatus"]==0){
+            $ret["message"]="Account not verified";
+            $ret["STATUS"] = "FAILURE";
+          }
+          else{
+            $ret["STATUS"] = "SUCCESS";
           }
         }
 
 
         return $ret;
+    }
+    function logout_user(){
+      $ret["STATUS"]=="SUCCESS";
+      session_destroy();
+      return $ret;
     }
     function registerUser($fname,$lname,$emailId,$password){
       $ret['message'] = 'SIGN UP SUCCESSFUL!';
@@ -44,7 +59,7 @@
       $sql_conn = mysqli_connection();
       $result = $sql_conn->query("SELECT userEmail FROM user WHERE userEmail = '$emailId'");
       if($result->num_rows > 0) {
-           $ret['message'] = "Looks like you have already signed up.";
+           $ret['message'] = "This Email already exists.";
            return $ret;
       } else {
         $created_date = date("Y-m-d H:i:s");
@@ -63,6 +78,7 @@
           $ret['STATUS'] = "FAILURE";
           return $ret;
         }
+        $ret['message'] = "Sign Up successful. Please, click on the verification link sent to the mail id.";
         return $ret;
       }
 
