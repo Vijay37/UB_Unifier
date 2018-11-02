@@ -19,6 +19,7 @@
         $ret['STATUS'] = "FAILURE";
         return $ret;
       }
+      mysqli_close($sql_conn);
       return $ret;
     }
     function add_user_event($emailId,$event_name,$event_desc="",$time,$date,$location="",$category=""){
@@ -40,6 +41,7 @@
         $ret['STATUS'] = "FAILURE";
         return $ret;
       }
+      mysqli_close($sql_conn);
       return $ret;
     }
     function add_event($event_name,$event_desc="",$time,$date,$location="",$category=""){
@@ -62,5 +64,45 @@
         return $ret;
       }
       return $ret;
+    }
+
+    function get_event_list(){
+      $ret['message'] = "SUCCESS";
+      $sql_conn = mysqli_connection();
+      $sql="SELECT * from Event WHERE 1";
+      $result = mysqli_query($sql_conn, $sql);
+
+      while($row = mysqli_fetch_array($result)) {
+          $json[] = $row;
+      }
+      $ret['RESULT']=$json;
+      mysqli_close($sql_conn);
+      return $ret;
+    }
+    function get_user_event_list($email){
+      $sql_conn = mysqli_connection();
+      $res=array();
+      $sql="SELECT * from UserEvents WHERE userEmail='$email'";
+      $result = mysqli_query($sql_conn, $sql);
+
+      while($row = mysqli_fetch_array($result)) {
+          $json[] = $row;
+      }
+      $res=$json;
+      mysqli_close($sql_conn);
+      return $res;
+    }
+    function get_user_link_list($email){
+      $sql_conn = mysqli_connection();
+      $res=array();
+      $sql="SELECT * from UserLinks WHERE userEmail='$email'";
+      $result = mysqli_query($sql_conn, $sql);
+
+      while($row = mysqli_fetch_array($result)) {
+          $json[] = $row;
+      }
+      $res=$json;
+      mysqli_close($sql_conn);
+      return $res;
     }
 ?>

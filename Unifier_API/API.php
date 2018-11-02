@@ -31,5 +31,17 @@ if(isset($_POST["KEY"])){
     $response=add_event($_POST["EVENTNAME"],$_POST["DESC"],$_POST["TIME"],$_POST["DATE"],$_POST["LOCATION"],$_POST["CATEGORY"]);
     echo json_encode($response);
   }
+  else if($_POST["KEY"]=="GETEVENT"){
+    $response=get_event_list();
+    echo json_encode($response);
+  }
+  else if($_POST["KEY"]=="GETUSEREVENT"){
+    $response=get_user_event_list($_POST["EMAIL"]);
+    echo json_encode($response);
+  }
+  else if($_POST["KEY"]=="GETUSERLINK"){
+    $response=get_user_link_list($_POST["EMAIL"]);
+    echo json_encode($response);
+  }
 }
 ?>
