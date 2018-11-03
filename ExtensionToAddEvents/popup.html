@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="jquery.datetimepicker.min.css">
+    <script src="jquery.min.js"></script>
+    <script src="jquery.datetimepicker.min.js"></script>
+    <script src="date.js"></script>
+    <script src="popup.js"></script>
+    <style>
+        body {
+            /*min-width: 420px;
+            overflow-x: hidden;*/
+            width: max-content;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+        input, textarea {
+            width: 420px;
+        }
+        input#save {
+            font-weight: bold; width: auto;
+        }
+        #popUp {
+            width: 68%;
+            height: 139%;
+            /*margin: 20px 20px 20px 17px;*/
+            /*background : #DFE4F9;*/
+            font-family : Arial, Sans-serif;
+            font-size : 12px;
+            /*display :none;*/
+        }
+        table {
+            background: none;
+            width: 146%;
+            /*height: 100%;*/
+            margin: 100px auto;
+            margin-top: 60%;
+            padding-top: 7%;
+            background: #DFE4F9;
+        }
+        td {
+            width: 50%;
+        }
+        input[type="text"] {
+            background: none;
+            padding: 8px;
+            display: block;
+            /*margin: 0 0 20px 0;*/
+            width: 70%;
+        }
+
+        .input-error {
+            border: 1px solid red !important;
+        }
+
+        #event-date {
+            /*display: none;*/
+        }
+
+        button {
+            background: none;
+            width: 92%;
+            border: 2px solid #2980b9;
+            padding: 8px;
+            background: none;
+            color: #2980b9;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="popUp">
+        <table>
+            <tr>
+              <td><label>Event Details</label></td>
+              <td><input type="text" id="event-title" autocomplete="off" /></td>
+            </tr>
+              <td><label>Start Time</label></td>
+              <td><input type="text" id="event-start-time" autocomplete="off" /></td>
+            </tr>
+            <tr>
+              <td><label>End Time</label></td>
+              <td><input type="text" id="event-end-time" autocomplete="off" /></td>
+            </tr>
+            <tr>
+              <td> <button id="cancel-event">Cancel Event</button></td>
+              <td> <button id="create-event">Create Event</button></td>
+            </tr>
+          </table>
+    </div>
+    
+</body>
+</html>
