@@ -6,6 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import Login from './containers/Login';
 import NotFound from './containers/NotFound';
 import Home from './containers/Home';
+import Register from './containers/Register';
 import ForgotPassword from './containers/ForgotPassword';
 import {
   BrowserRouter as Router,
@@ -19,7 +20,8 @@ ReactDOM.render(
        <Switch>
          <Route exact path="/" component={Home}/>
          <Route path="/Login" component={Login}/>
-       <Route path="/ForgotPassword" component={ForgotPassword}/>
+         <Route path="/ForgotPassword" component={ForgotPassword}/>
+       <Route path="/Register" component={Register}/>
          <Route component={NotFound}/>
        </Switch>
      </App>

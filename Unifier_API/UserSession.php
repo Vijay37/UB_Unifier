@@ -57,9 +57,11 @@
     function registerUser($fname,$lname,$emailId,$password){
       $ret['message'] = 'SIGN UP SUCCESSFUL!';
       $ret['STATUS'] = "SUCCESS";
+      $ret['SIGNUP'] = "SUCCESS";
       $sql_conn = mysqli_connection();
       $result = $sql_conn->query("SELECT userEmail FROM user WHERE userEmail = '$emailId'");
       if($result->num_rows > 0) {
+           $ret['SIGNUP'] = "FAILURE";
            $ret['message'] = "This Email already exists.";
            mysqli_close($sql_conn);
            return $ret;
