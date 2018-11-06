@@ -26,3 +26,10 @@
   font-weight: bold;
   display: flex;
 }
+.iconCSS{
+  align-items: center;
+  display: flex;
+}
+.userBtnCSS{
+  cursor:pointer;
+}

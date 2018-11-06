@@ -1,0 +1,7 @@
+.containerCSS{
+  display: flex;
+  height: 250px;
+  width: 250px;
+  border-radius: 20px 20px 5px 5px;
+  background: #f2f2f2;
+}
