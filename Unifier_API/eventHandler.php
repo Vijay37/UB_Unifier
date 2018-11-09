@@ -1,15 +1,15 @@
 <?php
     include_once("sql_connection.php");
-    function add_user_favlink($emailId,$link){
+    function add_user_favlink($emailId,$link,$linkName){
       $ret['message'] = "SUCCESS";
       $ret['STATUS'] = "SUCCESS";
       $sql_conn = mysqli_connection();
-      if(!($stmt = $sql_conn->prepare("INSERT INTO UserLinks(userEmail,link) VALUES (?,?)"))){
+      if(!($stmt = $sql_conn->prepare("INSERT INTO UserLinks(userEmail,linkName,link) VALUES (?,?,?)"))){
         $ret["message"] =  "Statement preparation failed: (" . $sql_conn->errno . ") " . $sql_conn->error;
         $ret['STATUS'] = "FAILURE";
         return $ret;
       }
-      if(!($stmt->bind_param("ss",$emailId, $link))){
+      if(!($stmt->bind_param("sss",$emailId, $linkName,$link))){
         $ret["message"] ="Binding Parameters Failed.";
         $ret['STATUS'] = "FAILURE";
         return $ret;
@@ -94,8 +94,9 @@
     }
     function get_user_link_list($email){
       $sql_conn = mysqli_connection();
+      $ret["message"]="SUCCESS";
       $res=array();
-      $sql="SELECT * from UserLinks WHERE userEmail='$email'";
+      $sql="SELECT linkName,link from UserLinks WHERE userEmail='$email'";
       $result = mysqli_query($sql_conn, $sql);
 
       while($row = mysqli_fetch_array($result)) {
@@ -103,6 +104,8 @@
       }
       $res=$json;
       mysqli_close($sql_conn);
-      return $res;
+      $ret["result"]=$res;
+      $ret["EMAIL"]=$email;
+      return $ret;
     }
 ?>

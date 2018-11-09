@@ -20,7 +20,7 @@ if(isset($_POST["KEY"])){
     echo json_encode($response);
   }
   else if($_POST["KEY"]=="ADDLINK"){
-    $response=add_user_favlink($_POST["EMAIL"],$_POST["LINK"]);
+    $response=add_user_favlink($_POST["EMAIL"],$_POST["LINK"],$_POST["LINKNAME"]);
     echo json_encode($response);
   }
   else if($_POST["KEY"]=="ADDUSEREVENT"){
