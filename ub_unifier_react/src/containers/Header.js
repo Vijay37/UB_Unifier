@@ -13,7 +13,7 @@ export default class Header extends Component{
   }
   componentDidMount(){
     let emailId=sessionStorage.getItem('user');
-    if(emailId!=""){
+    if(emailId!=null){
       emailId = emailId.replace("@buffalo.edu","");
       this.setState({
         email:emailId,

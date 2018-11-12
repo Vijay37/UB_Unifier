@@ -1,0 +1,18 @@
+.eventContainerCSS{
+  width: 100%;
+  background: #f2f2f2;
+  height: 100px;
+  padding: 15px;
+  border-bottom: 1px solid #b5b5b5;
+  font-family: Sofia, Arial, sans-serif;
+}
+.eventTitleCSS{
+  font-weight: bold;
+  color: #226598;
+}
+.eventOtherInfoCSS{
+  font-family: Sofia, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.5em;
+  color: #333;
+}

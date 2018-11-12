@@ -4,6 +4,7 @@ import Header from "./Header";
 import './Home.css';
 import LinkContainer from './LinkContainer';
 import * as constants from './Constants';
+import EventContainer from './EventContainer';
 class Home extends Component{
   constructor(props){
     super(props);
@@ -11,10 +12,12 @@ class Home extends Component{
     this.handleOnClick=this.handleOnClick.bind(this);
     this.get_links=this.get_links.bind(this);
     this.post_data=this.post_data.bind(this);
+    this.get_events=this.get_events.bind(this);
     this.state={
       isLoading:true,
       userData:{},
       userLinks:{},
+      events:{},
       email:"",
     }
   }
@@ -24,6 +27,11 @@ class Home extends Component{
     formData.append('EMAIL',sessionStorage.getItem('user'));
     this.post_data(formData,"link");
   };
+  get_events(){
+    var formData = new FormData();
+    formData.append('KEY',"GETEVENT");
+    this.post_data(formData,"event");
+  }
   post_data(formData,caller){
     const that = this;
     return fetch(constants.API,{
@@ -43,6 +51,13 @@ class Home extends Component{
       });
     }
     }
+    else if(caller==="event"){
+      if(data.message==="SUCCESS"){
+        that.setState({
+          events:data.RESULT,
+        })
+      }
+    }
   })
   .catch(function(error){
     console.log("Request failed",error);
@@ -51,6 +66,7 @@ class Home extends Component{
   componentDidMount() {
     this.onloadfunction();
     this.get_links();
+    this.get_events();
   }
   handleOnClick(){
     sessionStorage.setItem('loggedin',"false");
@@ -68,6 +84,31 @@ class Home extends Component{
 
   }
   render(){
+
+    var rows=[];
+    var events = this.state.events;
+
+    for (const key of Object.keys(events)) {
+      var color="#f2f2f2";
+      if(key%2==1){
+        color="white";
+      }
+      var eventTitle = events[key]["event_name"];
+      var event_desc= events[key]["description"];
+      var event_time= events[key]["time"];
+      var event_eTime= events[key]["endTime"];
+      var event_loc = events[key]["location"];
+      var event_date = events[key]["date"];
+      var event_category = events[key]["category"];
+      if(event_eTime==null)
+        event_eTime="";
+
+      event_category=event_category===null?"":event_category;
+      event_desc=event_desc===null?"":event_desc;
+      event_loc=event_loc===null?"":event_loc;
+      var event_fTime=event_date+" "+event_time+" "+event_eTime;
+      rows.push(<EventContainer key={key} eventTitle={eventTitle} bgColor={color} eventCategory={event_category} eventTime={event_fTime} eventLocation={event_loc} eventDesc={event_desc}/>);
+    }
     return(
       <div className="">
       <Header enableLogout={true} handleOnClick={this.handleOnClick}/>
@@ -82,7 +123,19 @@ class Home extends Component{
       <div className="col-md-3">
            <LinkContainer isLinkContainer={true} links={this.state.userLinks} heading={"Favorite Links"}/>
       </div>
-    </div>
+      </div>
+      <div className="row">
+      <div className="col-md-3">
+
+      </div>
+      <div className="col-md-6">
+          <div className="EventHeaderCSS">Upcoming Events</div>
+        {rows}
+      </div>
+      <div className="col-md-3">
+
+      </div>
+      </div>
   </div>
   </div>
     )
