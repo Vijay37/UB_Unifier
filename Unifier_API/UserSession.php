@@ -1,6 +1,7 @@
 <?php
     session_start();
     include_once("sql_connection.php");
+    include_once("tokenHandler.php");
 
     function loginUser($user){
         if(session_start()){
@@ -89,6 +90,42 @@
         mysqli_close($sql_conn);
         return $ret;
       }
+
+    }
+    function reset_password($token,$password){
+      $ret['message'] = '';
+      $ret['STATUS'] = "SUCCESS";
+      $sql_conn = mysqli_connection();
+      $status = validate_reset_token($token);
+      if($status["STATUS"]=="FAILURE"){
+        $ret['message'] = 'Invalid link';
+        $ret['STATUS'] = "FAILURE";
+      }
+      else{
+        if(!($stmt = $sql_conn->prepare("UPDATE user SET userPassword=? WHERE verificationLink=?"))){
+          $ret["message"] =  "Statement preparation failed: (" . $sql_conn->errno . ") " . $sql_conn->error;
+          $ret['STATUS'] = "FAILURE";
+          mysqli_close($sql_conn);
+          return $ret;
+        }
+        if(!($stmt->bind_param("ss",$password,$token))){
+          $ret["message"] ="Binding Parameters Failed.";
+          $ret['STATUS'] = "FAILURE";
+          mysqli_close($sql_conn);
+          return $ret;
+        }
+        if (!($res = $stmt->execute())) {
+          $ret["message"] =  "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+          $ret['STATUS'] = "FAILURE";
+          mysqli_close($sql_conn);
+          return $ret;
+        }
+        else{
+          $ret['STATUS'] = "SUCCESS";
+          $sql_conn->query("UPDATE user SET verificationLink = '' WHERE verificationLink='$token'");
+        }
+      }
+      return $ret;
 
     }
 ?>

@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {Button, FormGroup,FormControl,} from "react-bootstrap";
 import Header from "./Header";
 import * as constants from './Constants';
+import queryString from 'query-string';
 import '../App.css';
 import "./Login.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -19,10 +20,23 @@ export default class Login extends Component{
       email:"",
       password:"",
       signin_msg:"",
+      props_msg:"",
     }
   }
   componentDidMount() {
     this.onloadfunction();
+    const values = queryString.parse(this.props.location.search)
+    const token = values.msg;
+    if(token=="reset"){
+        this.setState({
+          props_msg:"Password reset successful",
+        })
+    }
+    else if(token=="register"){
+        this.setState({
+          props_msg:"Registration successful",
+        })
+    }
   }
   onloadfunction(){
     if(sessionStorage.getItem('loggedin')==='true'){
@@ -69,8 +83,6 @@ export default class Login extends Component{
   })
   }
   validateForm(){
-    console.log("Email :"+this.state.email);
-    console.log("Password :"+this.state.password);
     if(this.state.email.length<=0 || this.state.password.length<=0)
      return;
     this.login_php();
@@ -82,6 +94,7 @@ export default class Login extends Component{
     this.setState({
       [event.target.id]:event.target.value,
       signin_msg:"",// Resetting Signin Message
+      msg:"",
     })
   }
   render(){
@@ -113,6 +126,9 @@ export default class Login extends Component{
 
             <div className="row error_msg_css" id="signup_msg">
               {this.state.signin_msg}
+            </div>
+            <div className="row props_msg_css" id="signup_msg">
+              {this.state.props_msg}
             </div>
           </FormGroup>
           </form>

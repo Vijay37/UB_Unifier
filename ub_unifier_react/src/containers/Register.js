@@ -42,7 +42,7 @@ export default class Register extends Component{
   ).then(response=>response.json())
   .then(function(data){
       if(data.SIGNUP==="SUCCESS" && data.STATUS==="SUCCESS"){
-        that.props.history.push("/Login");
+        that.props.history.push("/Login?msg=register");
       }
       else if(data.STATUS==="SUCCESS"){
         that.setState({

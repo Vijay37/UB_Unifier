@@ -77,7 +77,7 @@ class Home extends Component{
           <LinkContainer heading={"Upcoming Events"}/>
       </div>
       <div className="col-md-6">
-          <iframe src="https://calendar.google.com/calendar/embed?src=buffalo.edu_aeqqrlekluf3aa8rhn5c2mecqo%40group.calendar.google.com&ctz=America%2FNew_York" class="calendarCSS"></iframe>
+          <iframe src="https://calendar.google.com/calendar/embed?src=buffalo.edu_aeqqrlekluf3aa8rhn5c2mecqo%40group.calendar.google.com&ctz=America%2FNew_York" className="calendarCSS"></iframe>
       </div>
       <div className="col-md-3">
            <LinkContainer isLinkContainer={true} links={this.state.userLinks} heading={"Favorite Links"}/>
