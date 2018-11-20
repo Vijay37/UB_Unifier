@@ -52,5 +52,13 @@ if(isset($_POST["KEY"])){
     $response=reset_password($_POST["TOKEN"],$_POST["PASSWORD"]);
     echo json_encode($response);
   }
+  else if($_POST["KEY"]=="VALIDATEREGISTERTOKEN"){
+    $response=validate_registration_token($_POST["TOKEN"]);
+    echo json_encode($response);
+  }
+  else if($_POST["KEY"]=="SETREGISTERTOKEN"){
+    $response=set_registration_token($_POST["TOKEN"],$_POST["EMAILID"]);
+    echo json_encode($response);
+  }
 }
 ?>

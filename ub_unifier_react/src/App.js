@@ -13,4 +13,5 @@ const App = ({ children }) => (
     </main>
   </div>
 );
+
 export default App;

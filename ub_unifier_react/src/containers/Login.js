@@ -27,6 +27,14 @@ export default class Login extends Component{
     this.onloadfunction();
     const values = queryString.parse(this.props.location.search)
     const token = values.msg;
+    const token_value= values.token;
+    console.log("Token_value:"+token_value);
+    if(token_value!=undefined){
+      var formData = new FormData();
+      formData.append('KEY',"VALIDATEREGISTERTOKEN");
+      formData.append('TOKEN',token_value);
+      this.post_data(formData,"ACCOUNT_VER");
+    }
     if(token=="reset"){
         this.setState({
           props_msg:"Password reset successful",
@@ -37,6 +45,7 @@ export default class Login extends Component{
           props_msg:"Registration successful",
         })
     }
+
   }
   onloadfunction(){
     if(sessionStorage.getItem('loggedin')==='true'){
@@ -75,6 +84,22 @@ export default class Login extends Component{
         sessionStorage.setItem('user', that.state.email);
 
         that.props.history.push('/');
+      }
+    }
+    else if(caller==="ACCOUNT_VER"){
+      if(data.STATUS==="FAILURE"){
+        that.setState({
+         signin_msg:"Invalid verification Link",
+
+       });
+      }
+      else if(data.STATUS==="SUCCESS"){
+
+        var message ="Account verified successfully";
+        that.setState({
+         props_msg:message,
+
+       });
       }
     }
   })
