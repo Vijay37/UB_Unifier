@@ -13,12 +13,25 @@ class Home extends Component{
     this.get_links=this.get_links.bind(this);
     this.post_data=this.post_data.bind(this);
     this.get_events=this.get_events.bind(this);
+    this.addLinktoDb=this.addLinktoDb.bind(this);
     this.state={
       isLoading:true,
       userData:{},
       userLinks:{},
       events:{},
       email:"",
+      link_link:"",
+      link_name:"",
+    }
+  }
+  addLinktoDb(){
+    if(this.state.link_link.trim()!="" && this.state.link_name.trim()!=""){
+      var formData = new FormData();
+      formData.append("KEY","ADDLINK");
+      formData.append("EMAIL",sessionStorage.getItem("user"));
+      formData.append("LINK",this.state.link_link);
+      formData.append("LINKNAME",this.state.link_name);
+      this.post_data(formData,"ADDLINK");
     }
   }
   get_links(){
@@ -32,6 +45,7 @@ class Home extends Component{
     formData.append('KEY',"GETEVENT");
     this.post_data(formData,"event");
   }
+
   post_data(formData,caller){
     const that = this;
     return fetch(constants.API,{
@@ -44,12 +58,23 @@ class Home extends Component{
     }
   ).then(response=>response.json())
   .then(function(data){
+    console.log("Data:",data);
     if(caller==="link"){
       if(data.message==="SUCCESS"){
       that.setState({
         userLinks:data.result,
+        link_name:"",
+        link_link:"",
       });
     }
+    }
+    else if(caller==="ADDLINK"){
+      if(data.STATUS==="SUCCESS"){
+        var formData = new FormData();
+        formData.append('KEY',"GETUSERLINK");
+        formData.append('EMAIL',sessionStorage.getItem('user'));
+        that.post_data(formData,"link");
+      }
     }
     else if(caller==="event"){
       if(data.message==="SUCCESS"){
@@ -80,8 +105,11 @@ class Home extends Component{
     this.setState({
       email:sessionStorage.getItem('user'),
     })
-
-
+  }
+  handleLinkContainerClick=event=>{
+    this.setState({
+      [event.target.id]:event.target.value,
+    })
   }
   render(){
 
@@ -121,7 +149,7 @@ class Home extends Component{
           <iframe src="https://calendar.google.com/calendar/embed?src=buffalo.edu_aeqqrlekluf3aa8rhn5c2mecqo%40group.calendar.google.com&ctz=America%2FNew_York" className="calendarCSS"></iframe>
       </div>
       <div className="col-md-3">
-           <LinkContainer isLinkContainer={true} links={this.state.userLinks} heading={"Favorite Links"}/>
+           <LinkContainer addLinkClick={this.addLinktoDb} isLinkContainer={true} link_l={this.state.link_link} link_name={this.state.link_name} links={this.state.userLinks} handleChange={(event)=>this.handleLinkContainerClick(event)} heading={"Favorite Links"}/>
       </div>
       </div>
       <div className="row">
