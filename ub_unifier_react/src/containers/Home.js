@@ -14,11 +14,13 @@ class Home extends Component{
     this.post_data=this.post_data.bind(this);
     this.get_events=this.get_events.bind(this);
     this.addLinktoDb=this.addLinktoDb.bind(this);
+    this.get_user_events=this.get_user_events.bind(this);
     this.state={
       isLoading:true,
       userData:{},
       userLinks:{},
       events:{},
+      userEvents:{},
       email:"",
       link_link:"",
       link_name:"",
@@ -40,6 +42,12 @@ class Home extends Component{
     formData.append('EMAIL',sessionStorage.getItem('user'));
     this.post_data(formData,"link");
   };
+  get_user_events(){
+    var formData = new FormData();
+    formData.append('KEY',"GETUSEREVENT");
+    formData.append('EMAIL',sessionStorage.getItem('user'));
+    this.post_data(formData,"user_event");
+  }
   get_events(){
     var formData = new FormData();
     formData.append('KEY',"GETEVENT");
@@ -83,6 +91,11 @@ class Home extends Component{
         })
       }
     }
+    else if(caller==="user_event"){
+        that.setState({
+          userEvents:data,
+        })
+    }
   })
   .catch(function(error){
     console.log("Request failed",error);
@@ -92,6 +105,7 @@ class Home extends Component{
     this.onloadfunction();
     this.get_links();
     this.get_events();
+    this.get_user_events();
   }
   handleOnClick(){
     sessionStorage.setItem('loggedin',"false");
@@ -143,7 +157,7 @@ class Home extends Component{
       <div className="homeMainCSS">
       <div className="row">
       <div className="col-md-3">
-          <LinkContainer heading={"Upcoming Events"}/>
+          <LinkContainer user_events={this.state.userEvents} heading={"Upcoming Events"}/>
       </div>
       <div className="col-md-6">
           <iframe src="https://calendar.google.com/calendar/embed?src=buffalo.edu_aeqqrlekluf3aa8rhn5c2mecqo%40group.calendar.google.com&ctz=America%2FNew_York" className="calendarCSS"></iframe>

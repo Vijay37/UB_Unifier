@@ -33,6 +33,18 @@ export default class LinkContainer extends Component{
       addLink_div.push(<FormControl  key={2} bsClass="addLinkCSS" placeholder="Link Name" type='input' id="link_name" value={this.props.link_name} onChange={(event)=>this.props.handleChange(event)}/>);
       addLink_div.push(<Button key={3} className="addLinkBtnCSS" onClick={this.props.addLinkClick}> ADD </Button>);
     }
+    else{
+      var rows=[];
+
+      for (const key of Object.keys(this.props.user_events)) {
+        var eventName = this.props.user_events[key]["event_name"];
+        var s_time = this.props.user_events[key]["time"];
+        var e_time = this.props.user_events[key]["endTime"];
+        var date = this.props.user_events[key]["date"];
+        e_time = e_time === null ? "" :e_time;
+        rows.push(<div className="upCEventsCSS" key={eventName}><div >{eventName} </div><div>{date} ({s_time} {e_time})</div></div>);
+      }
+    }
     return(
       <div className='containerCSS'>
         <div className="containerHdngCSS">
