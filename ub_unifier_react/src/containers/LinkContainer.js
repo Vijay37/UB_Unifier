@@ -31,7 +31,7 @@ export default class LinkContainer extends Component{
       var addLink_div=[];
       addLink_div.push(<FormControl key={1}  bsClass="addLinkCSS" placeholder="Link" type='input' id="link_link" value={this.props.link_l} onChange={(event)=>this.props.handleChange(event)}/>);
       addLink_div.push(<FormControl  key={2} bsClass="addLinkCSS" placeholder="Link Name" type='input' id="link_name" value={this.props.link_name} onChange={(event)=>this.props.handleChange(event)}/>);
-      addLink_div.push(<Button key={3} className="addLinkBtnCSS" onClick={this.props.addLinkClick}> ADD </Button>);
+      addLink_div.push(<div key={3}><button key={3} className="addLinkBtnCSS" onClick={this.props.addLinkClick}> ADD </button></div>);
     }
     else{
       var rows=[];
@@ -54,6 +54,8 @@ export default class LinkContainer extends Component{
         <div className="list-cntnrCSS" id="list_container">
           {rows}
           {addLink_div}
+
+
 
 
 
