@@ -171,7 +171,7 @@ class Home extends Component{
 
       </div>
       <div className="col-md-6">
-          <div className="EventHeaderCSS">Upcoming Events</div>
+          <div className="EventHeaderCSS">Events Feed</div>
         {rows}
       </div>
       <div className="col-md-3">
