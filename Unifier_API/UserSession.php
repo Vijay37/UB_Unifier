@@ -60,10 +60,16 @@
       $ret['STATUS'] = "SUCCESS";
       $ret['SIGNUP'] = "SUCCESS";
       $sql_conn = mysqli_connection();
+      if($fname=="" || $lname=="" || $emailId=="" || $password==""){
+        $ret['SIGNUP'] = "FAILURE";
+        $ret['message'] = "Fields cannot be blank";
+        mysqli_close($sql_conn);
+        return $ret;
+      }
       $result = $sql_conn->query("SELECT userEmail FROM user WHERE userEmail = '$emailId'");
       if($result->num_rows > 0) {
            $ret['SIGNUP'] = "FAILURE";
-           $ret['message'] = "This Email already exists.";
+           $ret['message'] = "Account already exists.";
            mysqli_close($sql_conn);
            return $ret;
       } else {
