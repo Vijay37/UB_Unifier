@@ -69,7 +69,7 @@ function parseSelection(textSelection) {
 		
 		if(datePattern.test(array2[0])){
 			date = array2[0];
-			alert("array2[1]:"+array2[1]);
+			// alert("array2[1]:"+array2[1]);
 			if(array2[1].indexOf("-")>-1){
 				array = array2[1].split("-");
 				starts = date+" "+array[0];
@@ -86,9 +86,9 @@ function parseSelection(textSelection) {
 	stime = stime.replace(/\ /g,"_");
 	etime = etime.replace(/\ /g,"_");
 	title = title.replace(/\ /g,"_");
-	alert(stime);
-	alert(etime);
-	alert(title);
+	// alert(stime);
+	// alert(etime);
+	// alert(title);
 	var newURL ="http://localhost/ExtensionToAddEvents/PHP/home.php?title="+title+"&sTime="+stime+"&eTime="+etime;
 	chrome.tabs.create({ url: newURL });
 	return;
