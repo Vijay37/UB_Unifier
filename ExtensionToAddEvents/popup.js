@@ -2,51 +2,130 @@ chrome.tabs.executeScript( {
   code: "window.getSelection().toString();"
 }, function(selection) {
   parseSelection(selection[0]);
+  // handleClientLoad();
 });
 
-var hour = ''; var minutes = ''; var day = ''; var month = ''; var year = ''; var theDate = '';
+var hour = ''; var minutes = ''; var day = ''; var month = ''; var year = ''; var theDate = ''; var allDay = 0;
+
 function parseSelection(textSelection) {
+
+	// var title="Testing on progress";
+	// var stime="2018-11-27_13:00";
+	// var etime="2018-11-27_14:00";
+	// title = title.replace(/\ /g,"_");
+	// var newURL ="http://localhost/ExtensionToAddEvents/PHP/home.php?title="+title+"&sTime="+stime+"&eTime="+etime;
+	// chrome.tabs.create({ url: newURL });
+	// return;
+	var title="";
+	var stime="";
+	var etime="";
+
 	textSelection = textSelection.replace(new RegExp("ET", 'g'),"");
 	textSelection = textSelection.replace(/[()]/g,"");
+
+	// alert("replaced:"+textSelection);
 	var starts = "";
 	var ends = "";
+	var datePattern = /\d{1,2}(\-|\/|\.)\d{1,2}\1\d{4}/;
+	console.log("textSelection:"+textSelection);
+	if(textSelection.toUpperCase().indexOf('all day'.toUpperCase())>-1)
+		allDay = 1;
+
 	if(textSelection.indexOf("Starts:")>-1 && textSelection.indexOf("Ends:")>-1){
 		starts = textSelection.substring(textSelection.indexOf("Starts:")+"Starts:".length,textSelection.indexOf("Ends:")-1);
 		ends = textSelection.substring(textSelection.indexOf("Ends:")+"Ends:".length,textSelection.length);
-		extractDate(starts.trim(),'event-start-time');
-		extractDate(ends.trim(),'event-end-time');
+		// alert('starts:'+starts);
+		// extractDate(starts.trim(),'event-start-time');
+		// extractDate(ends.trim(),'event-end-time');
+		// alert('ends:'+ends);
+		stime = extractDate(starts.trim());
+		etime = extractDate(ends.trim());
+		textSelection = textSelection.replace(new RegExp(starts, 'g'),"");
+		textSelection = textSelection.replace(new RegExp(ends, 'g'),"");
+		textSelection = textSelection.replace(new RegExp("Starts:", 'g'),"");
+		textSelection = textSelection.replace(new RegExp("Ends:", 'g'),"");
+		title = textSelection;
 	}
 	else if(textSelection.indexOf("Starts:")>-1){
 		starts = textSelection.substring(textSelection.indexOf("Starts:")+"Starts:".length,textSelection.length);
-		extractDate(starts.trim(),'event-start-time');
+		// extractDate(starts.trim(),'event-start-time');
+		stime = extractDate(starts.trim());
+		textSelection = textSelection.replace(new RegExp(starts, 'g'),"");
+		textSelection = textSelection.replace(new RegExp("Starts:", 'g'),"");
+		title = textSelection;
 	}
 	else if(textSelection.indexOf("Ends:")>-1){
 		ends = textSelection.substring(textSelection.indexOf("Ends:")+"Ends:".length,textSelection.length);
-		extractDate(ends.trim(),'event-end-time');
+		// extractDate(ends.trim(),'event-end-time');
+		etime = extractDate(ends.trim());
+		textSelection = textSelection.replace(new RegExp(ends, 'g'),"");
+		textSelection = textSelection.replace(new RegExp("Ends:", 'g'),"");
+		title = textSelection;
 	}
-	textSelection = textSelection.replace(new RegExp(starts, 'g'),"");
-	textSelection = textSelection.replace(new RegExp(ends, 'g'),"");
-	textSelection = textSelection.replace(new RegExp("Starts:", 'g'),"");
-	textSelection = textSelection.replace(new RegExp("Ends:", 'g'),"");
-	document.getElementById('event-title').value = textSelection;
+	else if(datePattern.test(textSelection)){
+		var array;
+		var array1 = textSelection.split("\n");
+		var array2 = array1[1].split(",");
+
+		if(datePattern.test(array2[0])){
+			date = array2[0];
+			// alert("array2[1]:"+array2[1]);
+			if(array2[1].indexOf("-")>-1){
+				array = array2[1].split("-");
+				starts = date+" "+array[0];
+				ends = date+" "+array[1];
+				// alert("starts:"+starts);
+			}
+			// extractDate(starts.trim(),'event-start-time');
+			// extractDate(ends.trim(),'event-end-time');
+			stime = extractDate(starts.trim());
+			etime = extractDate(ends.trim());
+		}
+		title = array1[0];
+	}
+	stime = stime.replace(/\ /g,"_");
+	etime = etime.replace(/\ /g,"_");
+	title = title.replace(/\ /g,"_");
+	// alert(stime);
+	// alert(etime);
+	// alert(title);
+	var newURL ="http://localhost/ExtensionToAddEvents/PHP/home.php?title="+title+"&sTime="+stime+"&eTime="+etime;
+	chrome.tabs.create({ url: newURL });
+	return;
+	// textSelection = textSelection.replace(new RegExp(starts, 'g'),"");
+	// textSelection = textSelection.replace(new RegExp(ends, 'g'),"");
+	// textSelection = textSelection.replace(new RegExp("Starts:", 'g'),"");
+	// textSelection = textSelection.replace(new RegExp("Ends:", 'g'),"");
+	// document.getElementById('event-title').value = textSelection;
 }
 
-function extractDate(textSelection,id){
+function extractDate(textSelection/*,id*/){
+	// alert("id:"+id);
 	var foundDate = false;
 	var date;
 	var monthPattern = /(january|february|march|april|may|june|july|august|september|october|november|december)/gi; //any month
 	var monthUpperCasePattern = /(January|February|March|April|May|June|July|August|September|October|November|December)/gi; //any month
 	var shortMonthPattern = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/gi; //any short month
 	var dashMonthPattern = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/gi; //2004-04-30
+	var slashMonthPattern = /\d{1,2}(\-|\/|\.)\d{1,2}\1\d{4}/;
 	var timeDateStamp = /^(((((0[13578])|([13578])|(1[02]))[\-\/\s]?((0[1-9])|([1-9])|([1-2][0-9])|(3[01])))|((([469])|(11))[\-\/\s]?((0[1-9])|([1-9])|([1-2][0-9])|(30)))|((02|2)[\-\/\s]?((0[1-9])|([1-9])|([1-2][0-9]))))[\-\/\s]?\d{4})(\s(((0[1-9])|([1-9])|(1[0-2]))\:([0-5][0-9])((\s)|(\:([0-5][0-9])\s))([AM|PM|am|pm]{2,2})))?$/gi; //11/30/2003 10:12:24 am
 
-	if (textSelection.match(monthPattern) || textSelection.match(monthUpperCasePattern) || textSelection.match(shortMonthPattern) || textSelection.match(timeDateStamp) || textSelection.match(dashMonthPattern) /*||textSelection.match(slashMonthPattern)*/) {
+// 11/26/2018 12:00 PM
+// 11/29/2018 1:00 PM
+
+
+
+	if (textSelection.match(monthPattern) || textSelection.match(monthUpperCasePattern) || textSelection.match(shortMonthPattern) || textSelection.match(timeDateStamp) || textSelection.match(dashMonthPattern) ||textSelection.match(slashMonthPattern)) {
 		foundDate = true;
+		// alert("textSelection:"+textSelection);
 		theDate = Date.parse(textSelection);
 	}
+	// alert("foundDate:"+foundDate);
+	// alert("theDate:"+theDate);
 	var d = new Date(theDate);
-	alert('date:'+d);
-	if (foundDate && theDate != null && textSelection.length > 1 ){//&& textSelection.length < 40) {
+
+	if (foundDate && theDate != null){//&& textSelection.length < 40) {
+
 		theDate = theDate.toString();
 		if (theDate.indexOf("Jan") > -1) month = "01";
 		else if (theDate.indexOf("Feb") > -1) month = "02";
@@ -108,6 +187,8 @@ function AdjustMinTime(ct) {
 
 $(document).ready(function()
 {
+
+	// handleClientLoad();f
     $('#cancel-event').click(function()
     {
     	$('#popUp').hide();
@@ -159,27 +240,67 @@ $(document).ready(function()
 						end_time: $("#event-end-time").val().replace(' ', 'T') + ':00',
 						event_date: null
 					},
-					all_day: 0,
+					all_day: allDay,
 				};
 
 	$("#create-event").attr('disabled', 'disabled');
 
-	alert("event details:"+parameters.title+" times:"+parameters.event_time);
-  alert("updated ajax.php call to server");
-	$.ajax({
-        type: 'POST',
-        url: 'http://localhost:8888/Unifier_API/ajax.php',
-        data: { event_details: parameters },
-        dataType: 'json',
-        success: function(response) {
-        	$("#create-event").removeAttr('disabled');
-        	alert('Event created with ID : ' + response.event_id);
-        },
-        error: function(response) {
-            $("#create-event").removeAttr('disabled');
-            alert('error:'+response.message);
-        }
-    });
+	alert("event details:"+parameters.title+" times:"+parameters.event_time.start_time);
+	// $.ajax({
+ //        type: 'POST',
+ //        url: 'ajax.php',
+ //        data: { event_details: parameters },
+ //        dataType: 'json',
+ //        success: function(response) {
+ //        	// $("#create-event").removeAttr('disabled');
+ //        	// alert(response);
+ //        	alert('Event created with ID : ' + response.event_id);
+ //        },
+ //        error: function(response) {
+ //        	alert('error : ' + response.event_id);
+ //            // $("#create-event").removeAttr('disabled');
+ //            // alert('error:'+response.message);
 
-});
+ //        }
+ //    });
+//  	jQuery.ajax({
+//     type: 'POST',
+//     data: { 'event_details': parameters },
+//     dataType: 'json',
+//     url: 'ajax.php',
+//     success: function (d) { alert('success'); },
+//     error: function(d) {alert('ERROR');}
+// });
+	var str = "Hello";
+	// var url = "http://localhost/ExtensionToAddEvents/ajax.php";// No question mark needed
+	// xmlReq=new XMLHttpRequest();
+
+	// xmlReq.open("POST",url,true);
+	// xmlReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	// xmlReq.setRequestHeader("Content-length", str.length);
+	// xmlReq.setRequestHeader("Connection", "close");
+	// xmlReq.send(str);
+	// console.log("done");
+
+	// $.ajax({type:"POST",
+	// 	url:"http://localhost/ExtensionToAddEvents/ajax.php",
+	// 	data: { 'event_details': parameters },
+	// 	 dataType: 'json',
+	// 	success: function(text)
+ //  		{
+	// 		// It was a success, do something here
+	// 		alert('success:'+text.event_id);
+ //  		},
+ //  		error: function(text)
+ //  		{
+	// 		// There was an error, scream
+	// 		console.log('ERROR:',text);
+ //  		},
+ //  		dataType: 'json',
+	// });
+
+	// setUpGoogleApi();
+	// handleClientLoad();
+	AddEvent();
+
 });
