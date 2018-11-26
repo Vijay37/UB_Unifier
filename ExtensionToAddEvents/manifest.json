@@ -3,27 +3,31 @@
     "name": "UB Unifier Extension",
     "description": "Extension to select event details and date on browser and adds it to the google calendar",
     "version": "0.2",
-    // "background": {
-    //     "scripts": ["event.js"],
-    //     // "pages" : ["extensionPopup.html"],
-    //     "persistent": false
-    // },
+    
     "browser_action": {
         "default_icon": "icon.png",
         "default_popup": "popup.html"
     },
     // "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-    "content_scripts": [{
-     "js": ["jquery.min.js", "jquery.datetimepicker.min.js","event.js","date.js"],
-     "matches": ["http://*/*", "https://*/*"],
-     "all_frames": true
-   }],
-
+    // "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    // "content_security_policy": "script-src 'self' https://www.google.com/*; object-src 'self'",
+    
+    // "background":{
+    //     "scripts": ["jquery.min.js", "jquery.datetimepicker.min.js","date.js", "platform.js", "popup.js"]
+    // },
     "permissions": [
         "tabs", 
         "http://*/*", 
-        "https://*/*",
-        "http://www.google.com/"
-    ]
+        "https://*/*"
+    ],
+    "content_security_policy": "script-src 'self' https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en.RY3_VeahFng.O/m=auth2/exm=client/rt=j/sv=1/d=1/ed=1/am=QQ/rs=AGLTcCPzTc0sKtOI_lG2f1jyIaXoS_PxRQ/cb=gapi.loaded_1 https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en.RY3_VeahFng.O/m=client/rt=j/sv=1/d=1/ed=1/am=QQ/rs=AGLTcCPzTc0sKtOI_lG2f1jyIaXoS_PxRQ/cb=gapi.loaded_0 https://apis.google.com/js/platform.js https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en.RY3_VeahFng.O/m=auth2/exm=client/rt=j/sv=1/d=1/ed=1/am=QQ/rs=AGLTcCPzTc0sKtOI_lG2f1jyIaXoS_PxRQ/cb=gapi.loaded_1 https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en.RY3_VeahFng.O/m=client/rt=j/sv=1/d=1/ed=1/am=QQ/rs=AGLTcCPzTc0sKtOI_lG2f1jyIaXoS_PxRQ/cb=gapi.loaded_0 https://apis.google.com/js/platform.js 'unsafe-eval'; object-src 'self'",
+    "content_scripts": [{
+     "js": ["jquery.min.js", "jquery.datetimepicker.min.js","date.js", "platform.js", "client_platform.js"],
+     "matches": ["http://*/*", "https://*/*"],
+     "all_frames": true
+   }]
+    // "content_security_policy": "script-src 'self' https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en.RY3_VeahFng.O/m=auth2/exm=client/rt=j/sv=1/d=1/ed=1/am=QQ/rs=AGLTcCPzTc0sKtOI_lG2f1jyIaXoS_PxRQ/cb=gapi.loaded_1 https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en.RY3_VeahFng.O/m=client/rt=j/sv=1/d=1/ed=1/am=QQ/rs=AGLTcCPzTc0sKtOI_lG2f1jyIaXoS_PxRQ/cb=gapi.loaded_0 https://apis.google.com/js/platform.js  https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en.WuXfZQg4x2w.O/m=auth2/rt=j/sv=1/d=1/ed=1/am=QQ/rs=AGLTcCPRXqG3M91vzcH8chIOs1n-Gq6juQ/cb=gapi.loaded_0 'unsafe-eval'; object-src 'self'",
+    
+    
+
 }
