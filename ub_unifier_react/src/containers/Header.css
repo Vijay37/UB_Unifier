@@ -14,7 +14,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 90%;
+  width: 100%;
 }
 .App-header {
   background-color: #005bbb;
@@ -32,4 +32,9 @@
 }
 .userBtnCSS{
   cursor:pointer;
+}
+.userNameCSS{
+  font-size: 14px;
+  font-weight: normal;
+  padding: 10px;
 }

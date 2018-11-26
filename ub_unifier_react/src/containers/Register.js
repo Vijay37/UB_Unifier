@@ -11,6 +11,8 @@ export default class Register extends Component{
     this.registerUser=this.registerUser.bind(this);
     this.post_data=this.post_data.bind(this);
     this.onloadfunction=this.onloadfunction.bind(this);
+    this.is_valid_email=this.is_valid_email.bind(this);
+    this.is_buffalo_email=this.is_buffalo_email.bind(this);
     this.state={
       email_signup:"",
       fname_signup:"",
@@ -42,7 +44,7 @@ export default class Register extends Component{
   ).then(response=>response.json())
   .then(function(data){
       if(data.SIGNUP==="SUCCESS" && data.STATUS==="SUCCESS"){
-        that.props.history.push("/Login");
+        that.props.history.push("/Login?msg=register");
       }
       else if(data.STATUS==="SUCCESS"){
         that.setState({
@@ -55,10 +57,40 @@ export default class Register extends Component{
     console.log("Request failed",error);
   })
   }
+  is_valid_email(){
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(this.state.email_signup).toLowerCase());
+  }
+  is_buffalo_email(){
+    if(this.state.email_signup.indexOf("@buffalo.edu")<0)
+     return false;
+    else
+     return true;
+  }
   registerUser(){
     // validate register form
-    console.log("Registering new user");
-    this.register_php();
+    if(this.state.fname_signup.trim()==="" || this.state.lname_signup.trim()==="" || this.state.email_signup.trim()==="" || this.state.password_signup.trim()===""){
+      this.setState({
+        signup_msg:"Fields cannot be blank",
+      })
+    }
+    else if(this.state.password_signup != this.state.confirmpassword_signup){
+      this.setState({
+        signup_msg:"Password and confirm password do not match",
+      })
+    }
+    else if(!this.is_valid_email()){
+      this.setState({
+        signup_msg:"Invalid email id",
+      })
+    }
+    else if(!this.is_buffalo_email()){
+      this.setState({
+        signup_msg:"Email ID should be of @buffalo.edu",
+      })
+    }
+    else
+      this.register_php();
   }
   handleChange=event=>{
 

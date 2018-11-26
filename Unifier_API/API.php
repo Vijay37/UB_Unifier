@@ -6,6 +6,7 @@ header ("Access-Control-Allow-Headers: *");
 include_once("sql_connection.php");
 include_once("UserSession.php");
 include_once("eventHandler.php");
+include_once("tokenHandler.php");
 if(isset($_POST["KEY"])){
   if($_POST["KEY"]=="LOGIN"){
     $response=validateUser($_POST["EMAIL"],$_POST["PASSWORD"]);
@@ -41,6 +42,22 @@ if(isset($_POST["KEY"])){
   }
   else if($_POST["KEY"]=="GETUSERLINK"){
     $response=get_user_link_list($_POST["EMAIL"]);
+    echo json_encode($response);
+  }
+  else if($_POST["KEY"]=="VALIDATERESETTOKEN"){
+    $response=validate_reset_token($_POST["TOKEN"]);
+    echo json_encode($response);
+  }
+  else if($_POST["KEY"]=="RESETPASSWORD"){
+    $response=reset_password($_POST["TOKEN"],$_POST["PASSWORD"]);
+    echo json_encode($response);
+  }
+  else if($_POST["KEY"]=="VALIDATEREGISTERTOKEN"){
+    $response=validate_registration_token($_POST["TOKEN"]);
+    echo json_encode($response);
+  }
+  else if($_POST["KEY"]=="SETREGISTERTOKEN"){
+    $response=set_registration_token($_POST["TOKEN"],$_POST["EMAILID"]);
     echo json_encode($response);
   }
 }

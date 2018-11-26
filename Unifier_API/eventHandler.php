@@ -69,7 +69,8 @@
     function get_event_list(){
       $ret['message'] = "SUCCESS";
       $sql_conn = mysqli_connection();
-      $sql="SELECT * from Event WHERE 1";
+      $sql="SELECT * FROM Event where (datediff(now(),date(concat(date,' ',time)))<0)";
+      // $sql="SELECT * from Event WHERE 1";
       $result = mysqli_query($sql_conn, $sql);
 
       while($row = mysqli_fetch_array($result)) {
@@ -82,7 +83,7 @@
     function get_user_event_list($email){
       $sql_conn = mysqli_connection();
       $res=array();
-      $sql="SELECT * from UserEvents WHERE userEmail='$email'";
+      $sql="SELECT * FROM UserEvents where (datediff(now(),date(concat(date,' ',time)))<0) AND userEmail='$email'";
       $result = mysqli_query($sql_conn, $sql);
 
       while($row = mysqli_fetch_array($result)) {

@@ -84,6 +84,14 @@ label {
   align-self: center;
   justify-content: center;
 }
+.props_msg_css{
+  color: green;
+  text-align: center;
+  font-size: 16px;
+  padding-top: 10px;
+  align-self: center;
+  justify-content: center;
+}
 .linkCSS{
   text-align: center;
   justify-content: center;

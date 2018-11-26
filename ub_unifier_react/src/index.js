@@ -8,6 +8,7 @@ import NotFound from './containers/NotFound';
 import Home from './containers/Home';
 import Register from './containers/Register';
 import ForgotPassword from './containers/ForgotPassword';
+import ResetPassword from './containers/ResetPassword';
 import {
   BrowserRouter as Router,
   Route,
@@ -21,7 +22,8 @@ ReactDOM.render(
          <Route exact path="/" component={Home}/>
          <Route path="/Login" component={Login}/>
          <Route path="/ForgotPassword" component={ForgotPassword}/>
-       <Route path="/Register" component={Register}/>
+         <Route path="/Register" component={Register}/>
+       <Route exact path="/ResetPassword" component={ResetPassword}/>
          <Route component={NotFound}/>
        </Switch>
      </App>
