@@ -1,6 +1,7 @@
 {
   "name": "ub_unifier_react",
   "version": "0.1.0",
+  "homepage": "http://www-student.cse.buffalo.edu/~vijayaha/",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.8",

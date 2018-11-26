@@ -27,7 +27,8 @@ export default class Register extends Component{
   }
   onloadfunction(){
     if(sessionStorage.getItem('loggedin')==='true'){
-      this.props.history.push("/");
+      var home_path=`${process.env.PUBLIC_URL}/`;
+      this.props.history.push(home_path);
     }
 
   }

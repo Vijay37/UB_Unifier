@@ -110,11 +110,14 @@ class Home extends Component{
   handleOnClick(){
     sessionStorage.setItem('loggedin',"false");
     sessionStorage.setItem('user', '');
-    this.props.history.push("/Login");
+    var login_path=`${process.env.PUBLIC_URL}/Login`;
+    this.props.history.push(login_path);
   }
   onloadfunction(){
     if(sessionStorage.getItem('loggedin')!=='true'){
-      this.props.history.push("/Login");
+
+      var login_path=`${process.env.PUBLIC_URL}/Login`;
+      this.props.history.push(login_path);
     }
     this.setState({
       email:sessionStorage.getItem('user'),

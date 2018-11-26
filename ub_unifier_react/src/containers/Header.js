@@ -25,7 +25,7 @@ export default class Header extends Component{
       <header className="App-header">
       <div className="headerTitleCSS">
         <div className="headerimgDiv">
-          <Link to="/">
+          <Link to={`${process.env.PUBLIC_URL}/`}>
         <img className="ubHeaderCSS" src={require('../Files/ub_logo.jpg')}/>
     </Link>
       </div>

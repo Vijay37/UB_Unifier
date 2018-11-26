@@ -49,7 +49,9 @@ export default class Login extends Component{
   }
   onloadfunction(){
     if(sessionStorage.getItem('loggedin')==='true'){
-      this.props.history.push("/");
+      var home_path=`${process.env.PUBLIC_URL}/`;
+      console.log("Home path :"+home_path);
+      this.props.history.push(home_path);
     }
 
   }
@@ -83,7 +85,7 @@ export default class Login extends Component{
         sessionStorage.setItem('loggedin', 'true');
         sessionStorage.setItem('user', that.state.email);
 
-        that.props.history.push('/');
+        that.props.history.push("/");
       }
     }
     else if(caller==="ACCOUNT_VER"){
@@ -145,8 +147,8 @@ export default class Login extends Component{
             </div>
             <div className="row linkCSS">
             <div className="col-md-8">
-            <Link to="/ForgotPassword">Forgot password?</Link></div>
-          <div className="col-md-4"><Link to="/Register"> SignUp</Link></div>
+            <Link to={`${process.env.PUBLIC_URL}/ForgotPassword`}>Forgot password?</Link></div>
+          <div className="col-md-4"><Link to={`${process.env.PUBLIC_URL}/Register`}> SignUp</Link></div>
            </div>
 
             <div className="row error_msg_css" id="signup_msg">

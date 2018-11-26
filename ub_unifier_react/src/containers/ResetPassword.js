@@ -111,7 +111,7 @@ export default class ResetPassword extends Component{
       return(
         <div>
         <Header/>
-        <div>Invalid reset link. Please generate new reset link <Link to="/ForgotPassword">here</Link></div>
+      <div>Invalid reset link. Please generate new reset link <Link to={`${process.env.PUBLIC_URL}/ForgotPassword`}>here</Link></div>
         </div>
       )
     }
