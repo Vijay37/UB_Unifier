@@ -21,11 +21,12 @@ export default class LinkContainer extends Component{
          link = links[name];
          rows.push(<a key={name} href={link}>{name}</a>);
       }
-
+      if(this.props.links!== null && this.props.links!==undefined){
       for (const key of Object.keys(this.props.links)) {
         var linkName = this.props.links[key]["linkName"];
         link = this.props.links[key]["link"];
         rows.push(<a key={linkName} href={link}>{linkName}</a>);
+      }
       }
       var addLink_div=[];
       addLink_div.push(<FormControl key={1}  bsClass="addLinkCSS" placeholder="Link" type='input' id="link_link" value={this.props.link_l} onChange={(event)=>this.props.handleChange(event)}/>);
@@ -34,7 +35,7 @@ export default class LinkContainer extends Component{
     }
     else{
       rows=[];
-
+      if(this.props.user_events!==null && this.props.user_events!==undefined){
       for (const key of Object.keys(this.props.user_events)) {
         var eventName = this.props.user_events[key]["event_name"];
         var s_time = this.props.user_events[key]["time"];
@@ -42,6 +43,7 @@ export default class LinkContainer extends Component{
         var date = this.props.user_events[key]["date"];
         e_time = e_time === null ? "" :e_time;
         rows.push(<div className="upCEventsCSS" key={eventName}><div >{eventName} </div><div>{date} ({s_time} {e_time})</div></div>);
+      }
       }
     }
     return(

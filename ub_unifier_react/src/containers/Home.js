@@ -106,7 +106,6 @@ class Home extends Component{
     const values = queryString.parse(this.props.location.search)
     const token = values.token;
     const token_value= values.value;
-    console.log("Token_value:"+token_value);
     if(token!==undefined){
       if(token==="register"){
         var login_path=`${process.env.PUBLIC_URL}/Login?msg=newsignup&token=`+token_value;
@@ -150,7 +149,11 @@ class Home extends Component{
 
     var rows=[];
     var events = this.state.events;
-
+    var gcal_mailId = sessionStorage.getItem('user');
+    if(gcal_mailId!=null)
+    gcal_mailId=gcal_mailId.replace("@","%40");
+    console.log("gcal_mailId :"+gcal_mailId);
+    var gSrc ="https://calendar.google.com/calendar/embed?src="+gcal_mailId+"&ctz=America%2FNew_York";
     for (const key of Object.keys(events)) {
       var color="#f2f2f2";
       if(key%2===1){
@@ -181,7 +184,7 @@ class Home extends Component{
           <LinkContainer user_events={this.state.userEvents} heading={"Upcoming Events"}/>
       </div>
       <div className="col-md-6">
-          <iframe title="google-calendar" src="https://calendar.google.com/calendar/embed?src=buffalo.edu_aeqqrlekluf3aa8rhn5c2mecqo%40group.calendar.google.com&ctz=America%2FNew_York" className="calendarCSS"></iframe>
+          <iframe title="google-calendar" src={gSrc} className="calendarCSS"></iframe>
       </div>
       <div className="col-md-3">
            <LinkContainer addLinkClick={this.addLinktoDb} isLinkContainer={true} link_l={this.state.link_link} link_name={this.state.link_name} links={this.state.userLinks} handleChange={(event)=>this.handleLinkContainerClick(event)} heading={"Favorite Links"}/>
