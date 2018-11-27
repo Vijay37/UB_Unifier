@@ -1,9 +1,6 @@
 import React,{Component} from 'react';
 import "./EventContainer.css";
 export default class EventContainer extends Component{
-  constructor(props){
-    super(props);
-  }
   render(){
     return(
       <div className="eventContainerCSS" style={{background:this.props.bgColor}}>

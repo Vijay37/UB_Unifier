@@ -5,6 +5,7 @@ import './Home.css';
 import LinkContainer from './LinkContainer';
 import * as constants from './Constants';
 import EventContainer from './EventContainer';
+import queryString from 'query-string';
 class Home extends Component{
   constructor(props){
     super(props);
@@ -27,7 +28,7 @@ class Home extends Component{
     }
   }
   addLinktoDb(){
-    if(this.state.link_link.trim()!="" && this.state.link_name.trim()!=""){
+    if(this.state.link_link.trim()!=="" && this.state.link_name.trim()!==""){
       var formData = new FormData();
       formData.append("KEY","ADDLINK");
       formData.append("EMAIL",sessionStorage.getItem("user"));
@@ -102,10 +103,27 @@ class Home extends Component{
   })
   }
   componentDidMount() {
-    this.onloadfunction();
-    this.get_links();
-    this.get_events();
-    this.get_user_events();
+    const values = queryString.parse(this.props.location.search)
+    const token = values.token;
+    const token_value= values.value;
+    console.log("Token_value:"+token_value);
+    if(token!==undefined){
+      if(token==="register"){
+        var login_path=`${process.env.PUBLIC_URL}/Login?msg=newsignup&token=`+token_value;
+        this.props.history.push(login_path);
+      }
+      else if(token==="reset"){
+        var reset_path=`${process.env.PUBLIC_URL}/ResetPassword?token=`+token_value;
+        this.props.history.push(reset_path);
+      }
+    }
+    else{
+      this.onloadfunction();
+      this.get_links();
+      this.get_events();
+      this.get_user_events();
+
+    }
   }
   handleOnClick(){
     sessionStorage.setItem('loggedin',"false");
@@ -135,7 +153,7 @@ class Home extends Component{
 
     for (const key of Object.keys(events)) {
       var color="#f2f2f2";
-      if(key%2==1){
+      if(key%2===1){
         color="white";
       }
       var eventTitle = events[key]["event_name"];
@@ -163,7 +181,7 @@ class Home extends Component{
           <LinkContainer user_events={this.state.userEvents} heading={"Upcoming Events"}/>
       </div>
       <div className="col-md-6">
-          <iframe src="https://calendar.google.com/calendar/embed?src=buffalo.edu_aeqqrlekluf3aa8rhn5c2mecqo%40group.calendar.google.com&ctz=America%2FNew_York" className="calendarCSS"></iframe>
+          <iframe title="google-calendar" src="https://calendar.google.com/calendar/embed?src=buffalo.edu_aeqqrlekluf3aa8rhn5c2mecqo%40group.calendar.google.com&ctz=America%2FNew_York" className="calendarCSS"></iframe>
       </div>
       <div className="col-md-3">
            <LinkContainer addLinkClick={this.addLinktoDb} isLinkContainer={true} link_l={this.state.link_link} link_name={this.state.link_name} links={this.state.userLinks} handleChange={(event)=>this.handleLinkContainerClick(event)} heading={"Favorite Links"}/>

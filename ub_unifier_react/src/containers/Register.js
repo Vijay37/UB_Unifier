@@ -45,7 +45,8 @@ export default class Register extends Component{
   ).then(response=>response.json())
   .then(function(data){
       if(data.SIGNUP==="SUCCESS" && data.STATUS==="SUCCESS"){
-        that.props.history.push("/Login?msg=register");
+        var login_path=`${process.env.PUBLIC_URL}/Login?msg=register`;
+        that.props.history.push(login_path);
       }
       else if(data.STATUS==="SUCCESS"){
         that.setState({
@@ -75,7 +76,7 @@ export default class Register extends Component{
         signup_msg:"Fields cannot be blank",
       })
     }
-    else if(this.state.password_signup != this.state.confirmpassword_signup){
+    else if(this.state.password_signup !== this.state.confirmpassword_signup){
       this.setState({
         signup_msg:"Password and confirm password do not match",
       })

@@ -29,20 +29,20 @@ export default class Login extends Component{
     const token = values.msg;
     const token_value= values.token;
     console.log("Token_value:"+token_value);
-    if(token_value!=undefined){
+    if(token_value!==undefined){
       var formData = new FormData();
       formData.append('KEY',"VALIDATEREGISTERTOKEN");
       formData.append('TOKEN',token_value);
       this.post_data(formData,"ACCOUNT_VER");
     }
-    if(token=="reset"){
+    if(token==="reset"){
         this.setState({
           props_msg:"Password reset successful",
         })
     }
-    else if(token=="register"){
+    else if(token==="register"){
         this.setState({
-          props_msg:"Registration successful",
+          props_msg:"Registration successful, verify the account by clicking on the link mailed to the registered mail id.",
         })
     }
 

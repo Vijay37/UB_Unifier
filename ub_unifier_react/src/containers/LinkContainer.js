@@ -1,8 +1,6 @@
 import React,{Component} from 'react';
 import './LinkContainer.css';
-import {Link} from 'react-router-dom';
-import {Button, FormGroup,FormControl,} from "react-bootstrap";
-import * as constants from './Constants';
+import {FormControl,} from "react-bootstrap";
 export default class LinkContainer extends Component{
   constructor(props){
     super(props);
@@ -13,8 +11,9 @@ export default class LinkContainer extends Component{
     }
   }
   render(){
+    var rows=[];
     if(this.props.isLinkContainer){
-      var rows=[];
+
       var links = this.state.fav_links;
       var link;
       for (var name in links)
@@ -25,7 +24,7 @@ export default class LinkContainer extends Component{
 
       for (const key of Object.keys(this.props.links)) {
         var linkName = this.props.links[key]["linkName"];
-        var link = this.props.links[key]["link"];
+        link = this.props.links[key]["link"];
         rows.push(<a key={linkName} href={link}>{linkName}</a>);
       }
       var addLink_div=[];
@@ -34,7 +33,7 @@ export default class LinkContainer extends Component{
       addLink_div.push(<div key={3}><button key={3} className="addLinkBtnCSS" onClick={this.props.addLinkClick}> ADD </button></div>);
     }
     else{
-      var rows=[];
+      rows=[];
 
       for (const key of Object.keys(this.props.user_events)) {
         var eventName = this.props.user_events[key]["event_name"];
