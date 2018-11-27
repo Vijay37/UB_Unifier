@@ -50,7 +50,6 @@ export default class Login extends Component{
   onloadfunction(){
     if(sessionStorage.getItem('loggedin')==='true'){
       var home_path=`${process.env.PUBLIC_URL}/`;
-      console.log("Home path :"+home_path);
       this.props.history.push(home_path);
     }
 
@@ -84,8 +83,8 @@ export default class Login extends Component{
       else if(data.STATUS==="SUCCESS"){
         sessionStorage.setItem('loggedin', 'true');
         sessionStorage.setItem('user', that.state.email);
-
-        that.props.history.push("/");
+        var home_path=`${process.env.PUBLIC_URL}/`;
+        that.props.history.push(home_path);
       }
     }
     else if(caller==="ACCOUNT_VER"){
