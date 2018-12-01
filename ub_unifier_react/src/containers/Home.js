@@ -166,6 +166,7 @@ class Home extends Component{
       var event_loc = events[key]["location"];
       var event_date = events[key]["date"];
       var event_category = events[key]["category"];
+      var link = events[key]["link"];
       if(event_eTime==null)
         event_eTime="";
 
@@ -173,7 +174,7 @@ class Home extends Component{
       event_desc=event_desc===null?"":event_desc;
       event_loc=event_loc===null?"":event_loc;
       var event_fTime=event_date+" "+event_time+" "+event_eTime;
-      rows.push(<EventContainer key={key} eventTitle={eventTitle} bgColor={color} eventCategory={event_category} eventTime={event_fTime} eventLocation={event_loc} eventDesc={event_desc}/>);
+      rows.push(<EventContainer key={key} eventTitle={eventTitle} bgColor={color} eventCategory={event_category} eventTime={event_fTime} eventLink={link} eventLocation={event_loc} eventDesc={event_desc}/>);
     }
     return(
       <div className="">

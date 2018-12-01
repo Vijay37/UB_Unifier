@@ -34,8 +34,6 @@ export default class Header extends Component{
       <div className="iconCSS">
         <FontAwesomeIcon
               icon="user"
-              className="userBtnCSS"
-              onClick={this.props.handleOnClick}
             />
           <div className="userNameCSS">  {this.state.email}</div>
       <FontAwesomeIcon

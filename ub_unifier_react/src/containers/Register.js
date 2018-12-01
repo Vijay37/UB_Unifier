@@ -135,7 +135,7 @@ export default class Register extends Component{
                 <FormControl bsClass="inputCSS" type='password' id="password_signup" value={this.state.password_signup} placeholder="Password" onChange={(event)=>this.handleChange(event)}/>
               </div>
               <div className="row" >
-                <FormControl bsClass="inputCSS" type='password' id="confirmpassword_signup" value={this.state.confirmpassword_signup}  placeholder="Confirm Password"onChange={(event)=>this.handleChange(event)}/>
+                <FormControl bsClass="inputCSS" type='password' id="confirmpassword_signup" value={this.state.confirmpassword_signup}  placeholder="Confirm Password" onChange={(event)=>this.handleChange(event)}/>
               </div>
               <div className="row">
                 <Button className="primary-button btn-primary" onClick={this.registerUser}> SIGN UP </Button>

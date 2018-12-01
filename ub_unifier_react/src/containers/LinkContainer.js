@@ -6,7 +6,7 @@ export default class LinkContainer extends Component{
     super(props);
 
     this.state={
-      fav_links:{MyUB:"https://test",BusSchedule:"https://www.buffalo.edu/parking/getting-around-UB/bus/bus-schedules.html"},
+      fav_links:{MyUB:"https://myub.buffalo.edu/myub/pw/template/myub.html",BusSchedule:"https://www.buffalo.edu/parking/getting-around-UB/bus/bus-schedules.html"},
 
     }
   }
@@ -19,13 +19,13 @@ export default class LinkContainer extends Component{
       for (var name in links)
       {
          link = links[name];
-         rows.push(<a key={name} href={link}>{name}</a>);
+         rows.push(<a key={name} target="_blank" href={link}>{name}</a>);
       }
       if(this.props.links!== null && this.props.links!==undefined){
       for (const key of Object.keys(this.props.links)) {
         var linkName = this.props.links[key]["linkName"];
         link = this.props.links[key]["link"];
-        rows.push(<a key={linkName} href={link}>{linkName}</a>);
+        rows.push(<a key={linkName} target="_blank" href={link}>{linkName}</a>);
       }
       }
       var addLink_div=[];

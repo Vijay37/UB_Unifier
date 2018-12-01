@@ -3,8 +3,8 @@
 
   "name": "UB Unifier",
   "description": "This extension will let you add the events you found on the website to your google calendar",
-  "version": "1",
-
+  "version": "3",
+  "permissions": [ "activeTab"],
   "browser_action": {
    "default_icon": "icon.png",
    "default_popup": "popup.html"
@@ -17,7 +17,7 @@
     }],
 
   "content_security_policy": "script-src 'self' https://calendar.google.com https://ssl.google-analytics.com 'unsafe-eval'; object-src 'self'",
-  "permissions": [ "identity", "storage", "tabs", "http://*/*", "https://*/*", "http://calendar.google.com/calendar/*", "https://calendar.google.com/calendar/*" ],
+
   "oauth2": {
     "client_id": "168383274926-sbc9rj5luiisimoqkhi2u68junq0nbcr.apps.googleusercontent.com",
     "scopes": [
