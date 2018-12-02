@@ -13,7 +13,10 @@ if(isset($_POST["KEY"])){
     echo json_encode($response);
   }
   else if($_POST["KEY"]=="REGISTER"){
-    $response=registerUser($_POST["F_NAME"],$_POST["L_NAME"],$_POST["EMAIL"],$_POST["PASSWORD"]);
+    $response=registerUser($_POST["F_NAME"],$_POST["L_NAME"],$_POST["EMAIL"],$_POST["PASSWORD"],$_POST["CALENDAR_EMAIL"]);
+    if($response['SIGNUP']=="SUCCESS"){
+      generate_and_set_registration_token($_POST["EMAIL"],"register");
+    }
     echo json_encode($response);
   }
   else if($_POST["KEY"]=="LOGOUT"){
@@ -46,6 +49,10 @@ if(isset($_POST["KEY"])){
   }
   else if($_POST["KEY"]=="VALIDATERESETTOKEN"){
     $response=validate_reset_token($_POST["TOKEN"]);
+    echo json_encode($response);
+  }
+  else if($_POST["KEY"]=="FORGOTPASSWORD"){
+    $response=generate_and_set_registration_token($_POST["EMAIL"],"reset");
     echo json_encode($response);
   }
   else if($_POST["KEY"]=="RESETPASSWORD"){

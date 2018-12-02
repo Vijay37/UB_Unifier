@@ -5,6 +5,7 @@ import './Home.css';
 import LinkContainer from './LinkContainer';
 import * as constants from './Constants';
 import EventContainer from './EventContainer';
+import queryString from 'query-string';
 class Home extends Component{
   constructor(props){
     super(props);
@@ -24,10 +25,11 @@ class Home extends Component{
       email:"",
       link_link:"",
       link_name:"",
+      calendar_email:"",
     }
   }
   addLinktoDb(){
-    if(this.state.link_link.trim()!="" && this.state.link_name.trim()!=""){
+    if(this.state.link_link.trim()!=="" && this.state.link_name.trim()!==""){
       var formData = new FormData();
       formData.append("KEY","ADDLINK");
       formData.append("EMAIL",sessionStorage.getItem("user"));
@@ -102,19 +104,38 @@ class Home extends Component{
   })
   }
   componentDidMount() {
-    this.onloadfunction();
-    this.get_links();
-    this.get_events();
-    this.get_user_events();
+    const values = queryString.parse(this.props.location.search)
+    const token = values.token;
+    const token_value= values.value;
+    if(token!==undefined){
+      if(token==="register"){
+        var login_path=`${process.env.PUBLIC_URL}/Login?msg=newsignup&token=`+token_value;
+        this.props.history.push(login_path);
+      }
+      else if(token==="reset"){
+        var reset_path=`${process.env.PUBLIC_URL}/ResetPassword?token=`+token_value;
+        this.props.history.push(reset_path);
+      }
+    }
+    else{
+      this.onloadfunction();
+      this.get_links();
+      this.get_events();
+      this.get_user_events();
+
+    }
   }
   handleOnClick(){
     sessionStorage.setItem('loggedin',"false");
     sessionStorage.setItem('user', '');
-    this.props.history.push("/Login");
+    var login_path=`${process.env.PUBLIC_URL}/Login`;
+    this.props.history.push(login_path);
   }
   onloadfunction(){
     if(sessionStorage.getItem('loggedin')!=='true'){
-      this.props.history.push("/Login");
+
+      var login_path=`${process.env.PUBLIC_URL}/Login`;
+      this.props.history.push(login_path);
     }
     this.setState({
       email:sessionStorage.getItem('user'),
@@ -129,10 +150,13 @@ class Home extends Component{
 
     var rows=[];
     var events = this.state.events;
-
+    var gcal_mailId = sessionStorage.getItem('calendarId');
+    if(gcal_mailId!=null)
+    gcal_mailId=gcal_mailId.replace("@","%40");
+    var gSrc ="https://calendar.google.com/calendar/embed?src="+gcal_mailId+"&ctz=America%2FNew_York";
     for (const key of Object.keys(events)) {
       var color="#f2f2f2";
-      if(key%2==1){
+      if(key%2===1){
         color="white";
       }
       var eventTitle = events[key]["event_name"];
@@ -142,6 +166,7 @@ class Home extends Component{
       var event_loc = events[key]["location"];
       var event_date = events[key]["date"];
       var event_category = events[key]["category"];
+      var link = events[key]["link"];
       if(event_eTime==null)
         event_eTime="";
 
@@ -149,7 +174,7 @@ class Home extends Component{
       event_desc=event_desc===null?"":event_desc;
       event_loc=event_loc===null?"":event_loc;
       var event_fTime=event_date+" "+event_time+" "+event_eTime;
-      rows.push(<EventContainer key={key} eventTitle={eventTitle} bgColor={color} eventCategory={event_category} eventTime={event_fTime} eventLocation={event_loc} eventDesc={event_desc}/>);
+      rows.push(<EventContainer key={key} eventTitle={eventTitle} bgColor={color} eventCategory={event_category} eventTime={event_fTime} eventLink={link} eventLocation={event_loc} eventDesc={event_desc}/>);
     }
     return(
       <div className="">
@@ -160,7 +185,7 @@ class Home extends Component{
           <LinkContainer user_events={this.state.userEvents} heading={"Upcoming Events"}/>
       </div>
       <div className="col-md-6">
-          <iframe src="https://calendar.google.com/calendar/embed?src=buffalo.edu_aeqqrlekluf3aa8rhn5c2mecqo%40group.calendar.google.com&ctz=America%2FNew_York" className="calendarCSS"></iframe>
+          <iframe title="google-calendar" src={gSrc} className="calendarCSS"></iframe>
       </div>
       <div className="col-md-3">
            <LinkContainer addLinkClick={this.addLinktoDb} isLinkContainer={true} link_l={this.state.link_link} link_name={this.state.link_name} links={this.state.userLinks} handleChange={(event)=>this.handleLinkContainerClick(event)} heading={"Favorite Links"}/>

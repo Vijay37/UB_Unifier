@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 import Login from './containers/Login';
 import NotFound from './containers/NotFound';
 import Home from './containers/Home';
@@ -19,15 +19,15 @@ ReactDOM.render(
    <Router>
      <App>
        <Switch>
-         <Route exact path="/" component={Home}/>
-         <Route path="/Login" component={Login}/>
-         <Route path="/ForgotPassword" component={ForgotPassword}/>
-         <Route path="/Register" component={Register}/>
-       <Route exact path="/ResetPassword" component={ResetPassword}/>
+         <Route exact path={`${process.env.PUBLIC_URL}/`} component={Home}/>
+       <Route path={`${process.env.PUBLIC_URL}/Login`} component={Login}/>
+     <Route path={`${process.env.PUBLIC_URL}/ForgotPassword`} component={ForgotPassword}/>
+         <Route path={`${process.env.PUBLIC_URL}/Register`} component={Register}/>
+       <Route exact path={`${process.env.PUBLIC_URL}/ResetPassword`} component={ResetPassword}/>
          <Route component={NotFound}/>
        </Switch>
      </App>
    </Router>
  )
   , document.getElementById('root'));
-registerServiceWorker();
+// registerServiceWorker();

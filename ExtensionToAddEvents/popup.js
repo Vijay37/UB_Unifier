@@ -22,7 +22,7 @@ function parseSelection(textSelection) {
 
 	textSelection = textSelection.replace(new RegExp("ET", 'g'),"");
 	textSelection = textSelection.replace(/[()]/g,"");
-	
+
 	// alert("replaced:"+textSelection);
 	var starts = "";
 	var ends = "";
@@ -30,7 +30,7 @@ function parseSelection(textSelection) {
 	console.log("textSelection:"+textSelection);
 	if(textSelection.toUpperCase().indexOf('all day'.toUpperCase())>-1)
 		allDay = 1;
-	
+
 	if(textSelection.indexOf("Starts:")>-1 && textSelection.indexOf("Ends:")>-1){
 		starts = textSelection.substring(textSelection.indexOf("Starts:")+"Starts:".length,textSelection.indexOf("Ends:")-1);
 		ends = textSelection.substring(textSelection.indexOf("Ends:")+"Ends:".length,textSelection.length);
@@ -66,7 +66,7 @@ function parseSelection(textSelection) {
 		var array;
 		var array1 = textSelection.split("\n");
 		var array2 = array1[1].split(",");
-		
+
 		if(datePattern.test(array2[0])){
 			date = array2[0];
 			// alert("array2[1]:"+array2[1]);
@@ -109,7 +109,7 @@ function extractDate(textSelection/*,id*/){
 	var dashMonthPattern = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/gi; //2004-04-30
 	var slashMonthPattern = /\d{1,2}(\-|\/|\.)\d{1,2}\1\d{4}/;
 	var timeDateStamp = /^(((((0[13578])|([13578])|(1[02]))[\-\/\s]?((0[1-9])|([1-9])|([1-2][0-9])|(3[01])))|((([469])|(11))[\-\/\s]?((0[1-9])|([1-9])|([1-2][0-9])|(30)))|((02|2)[\-\/\s]?((0[1-9])|([1-9])|([1-2][0-9]))))[\-\/\s]?\d{4})(\s(((0[1-9])|([1-9])|(1[0-2]))\:([0-5][0-9])((\s)|(\:([0-5][0-9])\s))([AM|PM|am|pm]{2,2})))?$/gi; //11/30/2003 10:12:24 am
-	
+
 // 11/26/2018 12:00 PM
 // 11/29/2018 1:00 PM
 
@@ -123,7 +123,7 @@ function extractDate(textSelection/*,id*/){
 	// alert("foundDate:"+foundDate);
 	// alert("theDate:"+theDate);
 	var d = new Date(theDate);
-	
+
 	if (foundDate && theDate != null){//&& textSelection.length < 40) {
 
 		theDate = theDate.toString();
@@ -139,7 +139,7 @@ function extractDate(textSelection/*,id*/){
 		else if (theDate.indexOf("Oct") > -1) month = "10";
 		else if (theDate.indexOf("Nov") > -1) month = "11";
 		else if (theDate.indexOf("Dec") > -1) month = "12";
-		
+
 		theDate = theDate.substring(8);
 		day = theDate.substring(0, 2);
 		theDate = theDate.substring(3);
@@ -147,143 +147,24 @@ function extractDate(textSelection/*,id*/){
 		theDate = theDate.substring(5);
 		hour = theDate.substring(0, 2);
 		minutes = theDate.substring(3, 5);
-		
-		// if (parseInt(hour) > 12) {
-		// 	hour = String(hour - 12);
-		// }
-		
-		// if (hour.length == 1) {
-		// 	hour = "0" + hour;
-		// }
-		
-		// if (parseInt(theDate.substring(0, 2)) < 12) {
-		// 	AmPm = 'AM';
-		// } else {
-		// 	AmPm = 'PM';
-		// }
-		// var value = year + "-" + month + "-" + day + " " + hour +':'+ minutes +' '+AmPm;
-		var date = year+"-"+month+"-"+day+" "+hour+":"+minutes;
-		
-		// alert("date:"+date);
-		return date;
 
-		// var dateVal = new Date(value);
-		// alert("date val:"+dateVal);
-		// document.getElementById(id).value = dateVal;
+		if (parseInt(hour) > 12) {
+			hour = String(hour - 12);
+		}
 
-		// alert('time:'+hour+' '+minutes+' '+AmPm);
-		// var dateFormatted = {month:month, day:day, year:year, hour:hour, minutes:minutes, AMPM:AmPm};
-		// return dateFormatted;
+		if (hour.length == 1) {
+			hour = "0" + hour;
+		}
+
+		if (parseInt(theDate.substring(0, 2)) < 12) {
+			AmPm = 'AM';
+		} else {
+			AmPm = 'PM';
+		}
+		var value = year + "-" + month + "-" + day + " " + hour +':'+ minutes +' '+AmPm;
+		var dateVal = new Date(value);
+		document.getElementById(id).value = dateVal;
 	}
-}
-
-
-//function
-var CLIENT_ID, API_KEY, DISCOVERY_DOCS, SCOPES;
-CLIENT_ID = '195769870801-14goc3ou2humursr5j2q1416a7vhfqrn.apps.googleusercontent.com';
-API_KEY = 'AIzaSyDvXC227Rdh2e3OmXX8dJGVGd9Us5l1-7E';
-DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-SCOPES = "https://www.googleapis.com/auth/calendar";
-function setUpGoogleApi(){
-	// Client ID and API key from the Developer Console
-    CLIENT_ID = '195769870801-14goc3ou2humursr5j2q1416a7vhfqrn.apps.googleusercontent.com';
-    API_KEY = 'AIzaSyDvXC227Rdh2e3OmXX8dJGVGd9Us5l1-7E';
-    // Array of API discovery doc URLs for APIs used by the quickstart
-    DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-    // Authorization scopes required by the API; multiple scopes can be
-    // included, separated by spaces.
-    SCOPES = "https://www.googleapis.com/auth/calendar";
-    // handleClientLoad();
-}
-function handleClientLoad() {
-    window.gapi.load('auth2', initClient);
-    // setTimeout(initClient, 10);
-}
-
-/**
-*  Initializes the API client library and sets up sign-in state
-*  listeners.
-*/
-function initClient() {
-    gapi.client.init({
-	    apiKey: API_KEY,
-	    clientId: CLIENT_ID,
-	    discoveryDocs: DISCOVERY_DOCS,
-	    scope: SCOPES
-	}).then(function () {
-    // Listen for sign-in state changes.
-        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-		// Handle the initial sign-in state.
-        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-        });
-      }
-
-      /**
-       *  Called when the signed in status changes, to update the UI
-       *  appropriately. After a sign-in, the API is called.
-       */
-      function updateSigninStatus(isSignedIn) {
-        if (isSignedIn) {
-          // listUpcomingEvents();
-          alert("Signed In");
-          // AddEvent();
-        }
-      }
-      /**
-       * Print the summary and start datetime/date of the next ten events in
-       * the authorized user's calendar. If no events are found an
-       * appropriate message is printed.
-       */
-      // function listUpcomingEvents() {
-      //   gapi.client.calendar.events.list({
-      //     'calendarId': 'primary',
-      //     'timeMin': (new Date()).toISOString(),
-      //     'showDeleted': false,
-      //     'singleEvents': true,
-      //     'maxResults': 10,
-      //     'orderBy': 'startTime'
-      //   }).then(function(response) {
-      //     var events = response.result.items;
-      //     appendPre('Upcoming events:');
-
-      //     if (events.length > 0) {
-      //       for (i = 0; i < events.length; i++) {
-      //         var event = events[i];
-      //         var when = event.start.dateTime;
-      //         if (!when) {
-      //           when = event.start.date;
-      //         }
-      //         appendPre(event.summary + ' (' + when + ')')
-      //       }
-      //     } else {
-      //       appendPre('No upcoming events found.');
-      //     }
-      //   });
-      // }
-
-function AddEvent() {
-	var event = {
-	  	'summary': 'Google I/O 2015',
-	  	'location': '800 Howard St., San Francisco, CA 94103',
-	  	'description': 'A chance to hear more about Google\'s developer products.',
-	  	'start': {
-	    	'dateTime': '2018-11-28T09:00:00-07:00',
-	    	'timeZone': 'Eastern Standard Time'
-	  	},
-	  	'end': {
-	    	'dateTime': '2018-11-28T17:00:00-07:00',
-	    	'timeZone': 'Eastern Standard Time'
-	  	}
-	};
-
-	var request = gapi.client.calendar.events.insert({
-  		'calendarId': 'primary',
-  		'resource': event
-	});
-
-	request.execute(function(event) {
-  		alert('Event created: ' + event.htmlLink);
-	});
 }
 
 
@@ -293,20 +174,20 @@ function AdjustMinTime(ct) {
   		current_date = dtob.getDate(),
   		current_month = dtob.getMonth() + 1,
   		current_year = dtob.getFullYear();
-  			
+
 	var full_date = current_year + '-' +
-					( current_month < 10 ? '0' + current_month : current_month ) + '-' + 
+					( current_month < 10 ? '0' + current_month : current_month ) + '-' +
 		  			( current_date < 10 ? '0' + current_date : current_date );
 
 	if(ct.dateFormat('Y-m-d') == full_date)
 		this.setOptions({ minTime: 0 });
-	else 
+	else
 		this.setOptions({ minTime: false });
 }
 
-$(document).ready(function() 
+$(document).ready(function()
 {
-	
+
 	// handleClientLoad();f
     $('#cancel-event').click(function()
     {
@@ -336,7 +217,7 @@ $(document).ready(function()
 	if(!blank_reg_exp.test($("#event-start-time").val())) {
 		$("#event-start-time").addClass('input-error');
 		error = 1;
-	}		
+	}
 
 	if(!blank_reg_exp.test($("#event-end-time").val())) {
 		$("#event-end-time").addClass('input-error');
@@ -351,9 +232,9 @@ $(document).ready(function()
 		$("#event-end-time").val($("#event-start-time").val());
 		$("#event-start-time").val(temp);
 	}
-	
+
 	// Event details
-	parameters = { 	title: $("#event-title").val(), 
+	parameters = { 	title: $("#event-title").val(),
 					event_time: {
 						start_time: $("#event-start-time").val().replace(' ', 'T') + ':00',
 						end_time: $("#event-end-time").val().replace(' ', 'T') + ':00',
@@ -363,14 +244,6 @@ $(document).ready(function()
 				};
 
 	$("#create-event").attr('disabled', 'disabled');
-	//check for google login
-	// $.ajax({
-	// 	type: 'POST',
-	// 	url: 'home.php',
-	// 	success: function(response) {
-	// 		alert('logged in:'+response.status);
-	// 	}
-	// })
 
 	alert("event details:"+parameters.title+" times:"+parameters.event_time.start_time);
 	// $.ajax({
@@ -409,16 +282,16 @@ $(document).ready(function()
 	// xmlReq.send(str);
 	// console.log("done");
 
-	// $.ajax({type:"POST", 
-	// 	url:"http://localhost/ExtensionToAddEvents/ajax.php", 
-	// 	data: { 'event_details': parameters }, 
+	// $.ajax({type:"POST",
+	// 	url:"http://localhost/ExtensionToAddEvents/ajax.php",
+	// 	data: { 'event_details': parameters },
 	// 	 dataType: 'json',
-	// 	success: function(text) 
+	// 	success: function(text)
  //  		{
 	// 		// It was a success, do something here
 	// 		alert('success:'+text.event_id);
  //  		},
- //  		error: function(text) 
+ //  		error: function(text)
  //  		{
 	// 		// There was an error, scream
 	// 		console.log('ERROR:',text);
@@ -428,7 +301,6 @@ $(document).ready(function()
 
 	// setUpGoogleApi();
 	// handleClientLoad();
-	AddEvent();	
-    
-});
+	AddEvent();
+
 });

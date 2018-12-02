@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import Header from './Header'
-import {Button, FormGroup,FormControl} from "react-bootstrap";
+import {Button,FormControl} from "react-bootstrap";
 import "./Login.css";
 import "./ForgotPassword.css";
 import queryString from 'query-string';
@@ -53,7 +53,7 @@ export default class ResetPassword extends Component{
     }
     else if(caller==="RESET"){
       if(data.STATUS==="FAILURE"){
-        if(data.message=="Invalid link"){
+        if(data.message==="Invalid link"){
           that.setState({
             tokenStatus:"false",
           })
@@ -65,7 +65,8 @@ export default class ResetPassword extends Component{
         }
       }
       else if(data.STATUS==="SUCCESS"){
-        that.props.history.push('/Login?msg=reset');
+        var login_path=`${process.env.PUBLIC_URL}/Login?msg=reset`;
+        that.props.history.push(login_path);
       }
     }
   })
@@ -81,6 +82,8 @@ export default class ResetPassword extends Component{
   }
   resetPassword(){
     // Validate password
+    if(this.state.password_signup!==this.state.confirmpassword_signup)
+     return;
     const values = queryString.parse(this.props.location.search)
     const token = values.token;
     this.validateToken(token);
@@ -100,7 +103,7 @@ export default class ResetPassword extends Component{
     })
   }
   render(){
-    if(this.state.tokenStatus=="loading"){
+    if(this.state.tokenStatus==="loading"){
       return(
         <div>
         <Header/>
@@ -111,7 +114,7 @@ export default class ResetPassword extends Component{
       return(
         <div>
         <Header/>
-        <div>Invalid reset link. Please generate new reset link <Link to="/ForgotPassword">here</Link></div>
+      <div>Invalid reset link. Please generate new reset link <Link to={`${process.env.PUBLIC_URL}/ForgotPassword`}>here</Link></div>
         </div>
       )
     }

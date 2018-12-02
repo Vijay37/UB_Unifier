@@ -25,8 +25,8 @@ export default class Header extends Component{
       <header className="App-header">
       <div className="headerTitleCSS">
         <div className="headerimgDiv">
-          <Link to="/">
-        <img className="ubHeaderCSS" src={require('../Files/ub_logo.jpg')}/>
+          <Link to={`${process.env.PUBLIC_URL}/`}>
+        <img alt="UB Logo" className="ubHeaderCSS" src={require('../Files/ub_logo.jpg')}/>
     </Link>
       </div>
         UB UNIFIER</div>
@@ -34,8 +34,6 @@ export default class Header extends Component{
       <div className="iconCSS">
         <FontAwesomeIcon
               icon="user"
-              className="userBtnCSS"
-              onClick={this.props.handleOnClick}
             />
           <div className="userNameCSS">  {this.state.email}</div>
       <FontAwesomeIcon

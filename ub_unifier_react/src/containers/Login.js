@@ -29,27 +29,28 @@ export default class Login extends Component{
     const token = values.msg;
     const token_value= values.token;
     console.log("Token_value:"+token_value);
-    if(token_value!=undefined){
+    if(token_value!==undefined){
       var formData = new FormData();
       formData.append('KEY',"VALIDATEREGISTERTOKEN");
       formData.append('TOKEN',token_value);
       this.post_data(formData,"ACCOUNT_VER");
     }
-    if(token=="reset"){
+    if(token==="reset"){
         this.setState({
           props_msg:"Password reset successful",
         })
     }
-    else if(token=="register"){
+    else if(token==="register"){
         this.setState({
-          props_msg:"Registration successful",
+          props_msg:"Registration successful, verify the account by clicking on the link mailed to the registered mail id.",
         })
     }
 
   }
   onloadfunction(){
     if(sessionStorage.getItem('loggedin')==='true'){
-      this.props.history.push("/");
+      var home_path=`${process.env.PUBLIC_URL}/`;
+      this.props.history.push(home_path);
     }
 
   }
@@ -82,8 +83,9 @@ export default class Login extends Component{
       else if(data.STATUS==="SUCCESS"){
         sessionStorage.setItem('loggedin', 'true');
         sessionStorage.setItem('user', that.state.email);
-
-        that.props.history.push('/');
+        sessionStorage.setItem('calendarId', data.CALENDAR_EMAIL);
+        var home_path=`${process.env.PUBLIC_URL}/`;
+        that.props.history.push(home_path);
       }
     }
     else if(caller==="ACCOUNT_VER"){
@@ -145,8 +147,8 @@ export default class Login extends Component{
             </div>
             <div className="row linkCSS">
             <div className="col-md-8">
-            <Link to="/ForgotPassword">Forgot password?</Link></div>
-          <div className="col-md-4"><Link to="/Register"> SignUp</Link></div>
+            <Link to={`${process.env.PUBLIC_URL}/ForgotPassword`}>Forgot password?</Link></div>
+          <div className="col-md-4"><Link to={`${process.env.PUBLIC_URL}/Register`}> SignUp</Link></div>
            </div>
 
             <div className="row error_msg_css" id="signup_msg">

@@ -20,6 +20,7 @@ export default class Register extends Component{
       password_signup:"",
       confirmpassword_signup:"",
       signup_msg:"",
+      calendar_email:"",
     }
   }
   componentDidMount() {
@@ -27,7 +28,8 @@ export default class Register extends Component{
   }
   onloadfunction(){
     if(sessionStorage.getItem('loggedin')==='true'){
-      this.props.history.push("/");
+      var home_path=`${process.env.PUBLIC_URL}/`;
+      this.props.history.push(home_path);
     }
 
   }
@@ -44,7 +46,8 @@ export default class Register extends Component{
   ).then(response=>response.json())
   .then(function(data){
       if(data.SIGNUP==="SUCCESS" && data.STATUS==="SUCCESS"){
-        that.props.history.push("/Login?msg=register");
+        var login_path=`${process.env.PUBLIC_URL}/Login?msg=register`;
+        that.props.history.push(login_path);
       }
       else if(data.STATUS==="SUCCESS"){
         that.setState({
@@ -57,9 +60,9 @@ export default class Register extends Component{
     console.log("Request failed",error);
   })
   }
-  is_valid_email(){
+  is_valid_email(emailId){
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(this.state.email_signup).toLowerCase());
+    return re.test(String(emailId).toLowerCase());
   }
   is_buffalo_email(){
     if(this.state.email_signup.indexOf("@buffalo.edu")<0)
@@ -69,19 +72,24 @@ export default class Register extends Component{
   }
   registerUser(){
     // validate register form
-    if(this.state.fname_signup.trim()==="" || this.state.lname_signup.trim()==="" || this.state.email_signup.trim()==="" || this.state.password_signup.trim()===""){
+    if(this.state.fname_signup.trim()==="" || this.state.lname_signup.trim()==="" || this.state.email_signup.trim()==="" || this.state.calendar_email.trim()==="" || this.state.password_signup.trim()===""){
       this.setState({
         signup_msg:"Fields cannot be blank",
       })
     }
-    else if(this.state.password_signup != this.state.confirmpassword_signup){
+    else if(this.state.password_signup !== this.state.confirmpassword_signup){
       this.setState({
         signup_msg:"Password and confirm password do not match",
       })
     }
-    else if(!this.is_valid_email()){
+    else if(!this.is_valid_email(this.state.email_signup)){
       this.setState({
         signup_msg:"Invalid email id",
+      })
+    }
+    else if(!this.is_valid_email(this.state.calendar_email)){
+      this.setState({
+        signup_msg:"Invalid calendar email id",
       })
     }
     else if(!this.is_buffalo_email()){
@@ -105,6 +113,7 @@ export default class Register extends Component{
     formData.append("F_NAME",this.state.fname_signup);
     formData.append("L_NAME",this.state.lname_signup);
     formData.append("EMAIL",this.state.email_signup);
+    formData.append("CALENDAR_EMAIL",this.state.calendar_email);
     formData.append("PASSWORD",this.state.password_signup);
     this.post_data(formData,"REGISTER");
   }
@@ -123,6 +132,9 @@ export default class Register extends Component{
               <div className="row">
                 <FormControl bsClass="inputCSS" type='email' id="email_signup" value={this.state.email_signup} placeholder="Email" onChange={(event)=>this.handleChange(event)}/>
               </div>
+              <div className="row">
+                <FormControl bsClass="inputCSS" type='email' id="calendar_email" value={this.state.calendar_email} placeholder="Preferred Calendar Email ID" onChange={(event)=>this.handleChange(event)}/>
+              </div>
               <div className="row" >
                 <FormControl bsClass="inputCSS" type='text' id="fname_signup" value={this.state.fname_signup} placeholder="First Name" onChange={(event)=>this.handleChange(event)}/>
               </div>
@@ -133,7 +145,7 @@ export default class Register extends Component{
                 <FormControl bsClass="inputCSS" type='password' id="password_signup" value={this.state.password_signup} placeholder="Password" onChange={(event)=>this.handleChange(event)}/>
               </div>
               <div className="row" >
-                <FormControl bsClass="inputCSS" type='password' id="confirmpassword_signup" value={this.state.confirmpassword_signup}  placeholder="Confirm Password"onChange={(event)=>this.handleChange(event)}/>
+                <FormControl bsClass="inputCSS" type='password' id="confirmpassword_signup" value={this.state.confirmpassword_signup}  placeholder="Confirm Password" onChange={(event)=>this.handleChange(event)}/>
               </div>
               <div className="row">
                 <Button className="primary-button btn-primary" onClick={this.registerUser}> SIGN UP </Button>

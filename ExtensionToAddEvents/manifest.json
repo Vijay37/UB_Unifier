@@ -3,15 +3,14 @@
     "name": "UB Unifier Extension",
     "description": "Extension to select event details and date on browser and adds it to the google calendar",
     "version": "0.2",
-    // "background": {
-    //     "scripts": ["event.js"],
-    //     // "pages" : ["extensionPopup.html"],
-    //     "persistent": false
-    // },
     "browser_action": {
         "default_icon": "icon.png",
         "default_popup": "popup.html"
     },
+<<<<<<< HEAD
+    "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
+=======
+>>>>>>> b7604b6fbba0d13fb72d66d1b705759118d91755
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "content_scripts": [{
      "js": ["jquery.min.js", "jquery.datetimepicker.min.js","date.js"],
@@ -20,8 +19,8 @@
    }],
 
     "permissions": [
-        "tabs", 
-        "http://*/*", 
+        "tabs",
+        "http://*/*",
         "https://*/*",
         "http://www.google.com/"
     ]
