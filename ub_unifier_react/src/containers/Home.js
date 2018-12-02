@@ -25,6 +25,7 @@ class Home extends Component{
       email:"",
       link_link:"",
       link_name:"",
+      calendar_email:"",
     }
   }
   addLinktoDb(){
@@ -149,10 +150,9 @@ class Home extends Component{
 
     var rows=[];
     var events = this.state.events;
-    var gcal_mailId = sessionStorage.getItem('user');
+    var gcal_mailId = sessionStorage.getItem('calendarId');
     if(gcal_mailId!=null)
     gcal_mailId=gcal_mailId.replace("@","%40");
-    console.log("gcal_mailId :"+gcal_mailId);
     var gSrc ="https://calendar.google.com/calendar/embed?src="+gcal_mailId+"&ctz=America%2FNew_York";
     for (const key of Object.keys(events)) {
       var color="#f2f2f2";

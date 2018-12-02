@@ -83,6 +83,7 @@ export default class Login extends Component{
       else if(data.STATUS==="SUCCESS"){
         sessionStorage.setItem('loggedin', 'true');
         sessionStorage.setItem('user', that.state.email);
+        sessionStorage.setItem('calendarId', data.CALENDAR_EMAIL);
         var home_path=`${process.env.PUBLIC_URL}/`;
         that.props.history.push(home_path);
       }

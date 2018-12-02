@@ -43,6 +43,7 @@
           }
           else{
             $ret["STATUS"] = "SUCCESS";
+            $ret["CALENDAR_EMAIL"]=$row["calendarEmail"];
           }
         }
 
@@ -55,7 +56,7 @@
       mysqli_close($sql_conn);
       return $ret;
     }
-    function registerUser($fname,$lname,$emailId,$password){
+    function registerUser($fname,$lname,$emailId,$password,$calendarId){
       $ret['message'] = 'SIGN UP SUCCESSFUL!';
       $ret['STATUS'] = "SUCCESS";
       $ret['SIGNUP'] = "SUCCESS";
@@ -74,13 +75,13 @@
            return $ret;
       } else {
         $created_date = date("Y-m-d H:i:s");
-        if(!($stmt = $sql_conn->prepare("INSERT INTO user(userEmail,userPassword,firstName,lastName) VALUES (?,?,?,?)"))){
+        if(!($stmt = $sql_conn->prepare("INSERT INTO user(userEmail,userPassword,firstName,lastName,calendarEmail) VALUES (?,?,?,?,?)"))){
           $ret["message"] =  "Statement preparation failed: (" . $sql_conn->errno . ") " . $sql_conn->error;
           $ret['STATUS'] = "FAILURE";
           mysqli_close($sql_conn);
           return $ret;
         }
-        if(!($stmt->bind_param("ssss",$emailId, $password, $fname, $lname))){
+        if(!($stmt->bind_param("sssss",$emailId, $password, $fname, $lname,$calendarId))){
           $ret["message"] ="Binding Parameters Failed.";
           $ret['STATUS'] = "FAILURE";
           mysqli_close($sql_conn);
