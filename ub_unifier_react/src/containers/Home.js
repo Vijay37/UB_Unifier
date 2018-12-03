@@ -87,6 +87,7 @@ class Home extends Component{
       }
     }
     else if(caller==="event"){
+      console.log("Events Data",data);
       if(data.message==="SUCCESS"){
         that.setState({
           events:data.RESULT,
@@ -154,28 +155,30 @@ class Home extends Component{
     if(gcal_mailId!=null)
     gcal_mailId=gcal_mailId.replace("@","%40");
     var gSrc ="https://calendar.google.com/calendar/embed?src="+gcal_mailId+"&ctz=America%2FNew_York";
-    for (const key of Object.keys(events)) {
-      var color="#f2f2f2";
-      if(key%2===1){
-        color="white";
-      }
-      var eventTitle = events[key]["event_name"];
-      var event_desc= events[key]["description"];
-      var event_time= events[key]["time"];
-      var event_eTime= events[key]["endTime"];
-      var event_loc = events[key]["location"];
-      var event_date = events[key]["date"];
-      var event_category = events[key]["category"];
-      var link = events[key]["link"];
-      if(event_eTime==null)
-        event_eTime="";
+    if(events!==null || events!==undefined){
+      for (const key of Object.keys(events)) {
+        var color="#f2f2f2";
+        if(key%2===1){
+          color="white";
+        }
+        var eventTitle = events[key]["event_name"];
+        var event_desc= events[key]["description"];
+        var event_time= events[key]["time"];
+        var event_eTime= events[key]["endTime"];
+        var event_loc = events[key]["location"];
+        var event_date = events[key]["date"];
+        var event_category = events[key]["category"];
+        var link = events[key]["link"];
+        if(event_eTime==null)
+          event_eTime="";
 
-      event_category=event_category===null?"":event_category;
-      event_desc=event_desc===null?"":event_desc;
-      event_loc=event_loc===null?"":event_loc;
-      var event_fTime=event_date+" "+event_time+" "+event_eTime;
-      rows.push(<EventContainer key={key} eventTitle={eventTitle} bgColor={color} eventCategory={event_category} eventTime={event_fTime} eventLink={link} eventLocation={event_loc} eventDesc={event_desc}/>);
-    }
+        event_category=event_category===null?"":event_category;
+        event_desc=event_desc===null?"":event_desc;
+        event_loc=event_loc===null?"":event_loc;
+        var event_fTime=event_date+" "+event_time+" "+event_eTime;
+        rows.push(<EventContainer key={key} eventTitle={eventTitle} bgColor={color} eventCategory={event_category} eventTime={event_fTime} eventLink={link} eventLocation={event_loc} eventDesc={event_desc}/>);
+      }
+  }
     return(
       <div className="">
       <Header enableLogout={true} handleOnClick={this.handleOnClick}/>

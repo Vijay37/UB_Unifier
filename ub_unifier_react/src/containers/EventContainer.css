@@ -16,3 +16,19 @@
   line-height: 1.5em;
   color: #333;
 }
+.shareButtonCSS{
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.titleDivCSS{
+  display: flex;
+}
+.socialMediaDivCSS{
+  display: flex;
+  float: right;
+  position: absolute;
+  right: 40px;
+  padding: 10px;
+}

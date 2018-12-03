@@ -69,10 +69,9 @@
     function get_event_list(){
       $ret['message'] = "SUCCESS";
       $sql_conn = mysqli_connection();
-      $sql="SELECT * FROM Event where (datediff(now(),date(concat(date,' ',time)))<0)";
+      $sql="SELECT * FROM Event where (datediff(now(),date(concat(date,' ',time)))<1)";
       // $sql="SELECT * from Event WHERE 1";
       $result = mysqli_query($sql_conn, $sql);
-
       while($row = mysqli_fetch_array($result)) {
           $json[] = $row;
       }
