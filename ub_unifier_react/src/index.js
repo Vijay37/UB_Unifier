@@ -7,6 +7,7 @@ import Login from './containers/Login';
 import NotFound from './containers/NotFound';
 import Home from './containers/Home';
 import Register from './containers/Register';
+import calendar from './containers/calendar';
 import ForgotPassword from './containers/ForgotPassword';
 import ResetPassword from './containers/ResetPassword';
 import {

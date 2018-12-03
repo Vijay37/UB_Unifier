@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import "./EventContainer.css";
-import {Link} from 'react-router-dom';
-import {FacebookShareButton,FacebookIcon,TwitterIcon} from 'react-share';
+import {FacebookIcon,TwitterIcon} from 'react-share';
 import { FacebookProvider, ShareButton } from 'react-facebook';
 import ShareLink from 'react-twitter-share-link'
 export default class EventContainer extends Component{

@@ -6,6 +6,7 @@ import LinkContainer from './LinkContainer';
 import * as constants from './Constants';
 import EventContainer from './EventContainer';
 import queryString from 'query-string';
+
 class Home extends Component{
   constructor(props){
     super(props);
@@ -28,6 +29,9 @@ class Home extends Component{
       calendar_email:"",
     }
   }
+
+
+
   addLinktoDb(){
     if(this.state.link_link.trim()!=="" && this.state.link_name.trim()!==""){
       var formData = new FormData();
@@ -119,6 +123,7 @@ class Home extends Component{
       }
     }
     else{
+      // this.getCalendarEvents();
       this.onloadfunction();
       this.get_links();
       this.get_events();
@@ -152,7 +157,8 @@ class Home extends Component{
     var rows=[];
     var events = this.state.events;
     var gcal_mailId = sessionStorage.getItem('calendarId');
-    if(gcal_mailId!=null)
+    console.log("gcal_mailId:"+gcal_mailId);
+    if(gcal_mailId!==null)
     gcal_mailId=gcal_mailId.replace("@","%40");
     var gSrc ="https://calendar.google.com/calendar/embed?src="+gcal_mailId+"&ctz=America%2FNew_York";
     if(events!==null || events!==undefined){
