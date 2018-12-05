@@ -24,6 +24,8 @@
     function validateUser( $username, $password ){
         $ret['message'] = 'SUCCESS';
         $ret["STATUS"] = "SUCCESS";
+        // $hash = password_hash($password, PASSWORD_DEFAULT);
+        // $password=$hash;
         $sql_conn = mysqli_connection();
         $sql = "SELECT * FROM  `user` WHERE userEmail='$username'";
         $result = $sql_conn->query($sql);
@@ -33,7 +35,7 @@
         }
         else{
           $row=$result->fetch_assoc();
-          if($row["userPassword"]!=$password){
+          if ($row["userPassword"]!=$password) {
             $ret["message"]="Invalid Email/Password";
             $ret["STATUS"] = "FAILURE";
           }

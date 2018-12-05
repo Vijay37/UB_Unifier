@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import './LinkContainer.css';
-import {FormControl,} from "react-bootstrap";
+import {FormControl,Button} from "react-bootstrap";
 var CLIENT_ID="385955327267-gmfo7607vl49ib6m4kd0phfas2hdi27h.apps.googleusercontent.com";
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
 var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
@@ -107,7 +107,7 @@ export default class LinkContainer extends Component{
     this.initGapi();
   }
   render(){
-    let authButton = <button id="authorize-button" onClick={this.handleAuthClick.bind(this)}>Authorize</button>
+    let authButton = <Button className="primary-button btn-primary" id="authorize-button" onClick={this.handleAuthClick.bind(this)}> Authorize </Button>
     let signOutButton = <button id="signout-button" onClick={this.handleSignoutClick.bind(this)}>Sign Out</button>
     var rows=[];
     if(this.props.isLinkContainer){
